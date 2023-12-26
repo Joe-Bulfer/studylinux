@@ -1,0 +1,1286 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../1.1%20Linux%20Fundumentals/">
+      
+      
+        <link rel="next" href="../1.3%20Storage/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>1.2 Manage Files and Directories - Study Linux</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#file-editing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Study Linux" class="md-header__button md-logo" aria-label="Study Linux" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Study Linux
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.2 Manage Files and Directories
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Study Linux" class="md-nav__button md-logo" aria-label="Study Linux" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Study Linux
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1. 0 System Management
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            1. 0 System Management
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.1%20Linux%20Fundumentals/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.1 Linux Fundumentals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    1.2 Manage Files and Directories
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    1.2 Manage Files and Directories
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#file-editing" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Editing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File Editing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cut" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cut
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#awk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Awk
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sort" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sort
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Metadata
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#archiving-and-compressing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Archiving and Compressing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-with-dd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Backup with dd
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#text-editors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Text Editors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rsync" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rsync
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.3%20Storage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.3 Storage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.4%20Processes%20and%20Services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.4 Processes and Services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.5%20Networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.5 Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6%20Package%20Management%20and%20Sandboxed%20Apps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.6 Package Management and Sandboxed Apps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.7%20Manage%20Software%20Configurations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.7 Manage Software Configurations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2.0 Security
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            2.0 Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.1%20PKI-Certs-Auth-Linux%20Hardening/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.1 PKI Certs Auth Linux Hardening
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.2%20Identity%20Management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.2 Identity Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.3%20Firewalls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.3 Firewalls
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.4%20SSH%20and%20Excecuting%20Commands%20as%20Another%20User/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.4 SSH and Excecuting Commands as Another User
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.5%20Access%20Controls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.5 Access Controls
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/Permissions-Octal%20Values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Permissions Octal Values
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3.0 Scripting, Containers, Automation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            3.0 Scripting, Containers, Automation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/3.1%20Bash%20scripting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.1 Bash scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/3.5%20Cloud%20%26%20Orchestration%20Concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.5 Cloud & Orchestration Concepts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/Docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/Git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/Infrastructure%20as%20Code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infrastructure as Code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#file-editing" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Editing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File Editing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cut" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cut
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#awk" class="md-nav__link">
+    <span class="md-ellipsis">
+      Awk
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sed
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sort" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sort
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#file-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Metadata
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#archiving-and-compressing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Archiving and Compressing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backup-with-dd" class="md-nav__link">
+    <span class="md-ellipsis">
+      Backup with dd
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#text-editors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Text Editors
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rsync" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rsync
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>1.2 Manage Files and Directories</h1>
+
+<h4 id="file-editing">File Editing</h4>
+<p>Note throughout this writing I use the words column and field interchangeably as well as record and row. </p>
+<p>In the Unix Philosophy, programs are written to handle text streams, as they are the universal interface. The following programs are essential for manipulating these text streams for common tasks at the terminal as well as more complex bash scripting in Linux. </p>
+<h5 id="cut">Cut</h5>
+<p>The simplest command to manipulate fields is <code>cut</code>. The default delimiter is a tab but can be specified with <code>-d[character]</code> and only supports a single character. Include desired fields with <code>-f</code>.</p>
+<p>Let's take a look at the <code>/etc/passwd</code> file, which contains all human and non-human users on the system. </p>
+<pre><code>~$ cat /etc/passwd 
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+</code></pre>
+<p>Now let's just grab the username and shell. I've set the delimiter <code>-d:</code> and specified I want fields 1-7 <code>-f1,7</code>.</p>
+<pre><code>~$ cut -d: -f1,7 /etc/passwd
+root:/bin/bash
+daemon:/usr/sbin/nologin
+bin:/usr/sbin/nologin
+</code></pre>
+<h5 id="awk">Awk</h5>
+<p>The <code>awk</code> command is a much larger utility and is an entire programming language in and of itself. It supports both columns and rows. Awk is often compared to Perl (Practical Extracting and Reporting Language) for complex text/data processing jobs, such as handling large csv files.</p>
+<p>To specify your field's with the <code>-F</code> flag, and make sure it's uppercase. Let's print out just the username and shell of <code>etc/passwd</code> as before with the cut command.</p>
+<pre><code>awk -F: '{print $1, $7}' /etc/passwd
+root /bin/bash
+daemon /usr/sbin/nologin
+bin /usr/sbin/nologin
+</code></pre>
+<p>Unlike cut, which just supports field separation, awk can select records (rows) with <code>NR</code> (number of record).</p>
+<pre><code>~$ awk -F: 'NR==2 {print $1, $7}' /etc/passwd
+daemon /usr/sbin/nologin
+</code></pre>
+<p>If a record has 8 fields, <code>$8</code> will select the last field, as the number of fields (NF) is eight. In this case <code>$NF</code> would be equivalent to <code>$8</code>. Knowing this, we can always select the last field of any given record with <code>$NF</code>.</p>
+<pre><code>~$ awk -F: '{print $NF}' /etc/passwd
+/bin/bash
+/usr/sbin/nologin
+/usr/sbin/nologin
+</code></pre>
+<p>Awk is a very powerful tool and this is just the tip of the iceberg. But I hope was a good introduction.</p>
+<h5 id="sed">Sed</h5>
+<p>Say we have a file <code>todo.txt</code> and want to manipulate by records/rows. </p>
+<pre><code>~$ cat todo.txt 
+1. water plants
+2. walk dog
+3. finish homework
+4. study linux
+</code></pre>
+<p>By default, sed will print out the line specified, then the whole file again. </p>
+<pre><code>~$ sed '1p' todo.txt 
+1. water plants
+1. water plants
+2. walk dog
+3. finish homework
+4. study linux
+</code></pre>
+<p>To prevent this, use the <code>-n</code> flag for (n)o output. Think of it as (n)ot printing the whole file, rather only what you specify. </p>
+<pre><code>~$ sed -n '1p' todo.txt 
+1. water plants
+</code></pre>
+<p>Specify ranges with a comma.</p>
+<pre><code>~$ sed -n '1,3p' todo.txt 
+1. water plants
+2. walk dog
+3. finish homework
+</code></pre>
+<p>Use a semicolon as a delimiter.</p>
+<pre><code>~$ sed -n '1p;4p' todo.txt 
+1. water plants
+4. study linux
+</code></pre>
+<p>When deleting lines, omit the <code>-n</code> flag.</p>
+<pre><code>~$ sed '1,2d' todo.txt 
+3. finish homework
+4. study linux
+</code></pre>
+<p>Besides selecting records of a file to print, we can find and replace with regex-like syntax. Say I have a dockerfile and I've decided to change the username. Instead of manually editing the file by changing each instance, I can use sed to substitute each value.</p>
+<pre><code>~$ sed 's/promptier/NEWUSERNAME/' Dockerfile 
+FROM ubuntu
+RUN apt-get update &amp;&amp; \
+    apt-get install -y sudo &amp;&amp; \
+    useradd -m NEWUSERNAME &amp;&amp; \
+    echo &quot;NEWUSERNAME:1234&quot; | chpasswd &amp;&amp; \
+    adduser NEWUSERNAME sudo
+
+USER NEWUSERNAME
+</code></pre>
+<p>As this example only prints to STDOUT, we can choose instead to edit the file in place with the <code>-i</code> flag or create a new file.</p>
+<pre><code>~$ sed -i 's/promptier/NEWUSERNAME/' Dockerfile 
+OR
+~$ sed 's/promptier/NEWUSERNAME/' Dockerfile &gt; Dockerfile2
+</code></pre>
+<p>Keep in mind substituting will run a single time on each line. If there were two or more instances of "promptier" on single line, I would add the global flag <code>-g</code> at the end to replace all instances : <code>sed 's/promptier/NEWUSERNAME/g'</code></p>
+<p>Two useful characters to know are the caret <code>^</code> and dollar sign <code>$</code> which represent the beginning and end of a line. These are common regex syntax that are used in both sed and vim. As an example, the way you would delete all blank lines in vim would be to check if the beginning of the line is immediately proceeded by the end of the line.</p>
+<pre><code>~$ cat todo.txt 
+1. water plants
+
+2. walk dog
+
+3. finish homework
+
+4. study linux
+
+~$ sed '/^$/d' todo.txt 
+1. water plants
+2. walk dog
+3. finish homework
+4. study linux
+</code></pre>
+<p>It is possible to insert lines before and after a match with <code>i</code> and <code>a</code>. Here I add a note after "walk dog". I could optionally insert before the line with <code>i</code>. Note the insertion begins with a backslash.</p>
+<pre><code>❯ sed '/dog/a\  -remember a leash' todo.txt 
+1. water plants
+2. walk dog
+  -remember a leash
+3. finish homework
+4. study linux
+</code></pre>
+<p>Swap characters with <code>y</code>. This is identical to the translate <code>tr</code> command.</p>
+<pre><code>❯ sed 'y/sed/XYZ/' todo.txt 
+1. watYr plantX
+2. walk Zog
+3. finiXh homYwork
+4. XtuZy linux
+
+❯ cat todo.txt | tr 'sed' 'XYZ' 
+1. watYr plantX
+2. walk Zog
+3. finiXh homYwork
+4. XtuZy linux
+</code></pre>
+<p>Say I have a bash script with many comments and newlines. I could make a short and concise version by removing the comments and removing newlines.</p>
+<pre><code>sed '/^#/d;/^$/d' verbose-script.sh &gt; short-script.sh
+</code></pre>
+<p>Say I have a very long file with authors and their relevant works and info, I could see on what lines "Hubbard" appears with <code>=</code>. This is very similar to <code>grep -n</code>.</p>
+<pre><code>❯ sed -n '/Hubbard/=' poems.csv 
+2
+3
+❯ grep -n 'Hubbard' 18.csv 
+2:1771/1798/E. H. (Elihu Hubbard)/Smith/8/SONNET I./Sent to Miss  , with a Braid of Hair.
+3:1771/1798/E. H. (Elihu Hubbard)/Smith/8/SONNET II./Sent to Mrs.  , with a Song.
+</code></pre>
+<h5 id="sort">Sort</h5>
+<p><code>sort</code> command will sort alphabetically by the first column by default, and will separate columns by white space unless the separator is specified with  <code>-t</code>.</p>
+<p>Say I wanted to sort kernel modules by their size, I would numeric sort <code>-n</code> , then choose the second column/key with <code>-k 2</code>.</p>
+<pre><code>lsmod | sort -n -k 2
+Module                  Size  Used by
+algif_hash             16384  1
+algif_skcipher         16384  1
+cmac                   16384  2
+</code></pre>
+<p>Now say I want to sort the users in <code>/etc/passwd</code> based on their user ID in descending order, which is the third column seperated by colons. I can use <code>-t</code> for field seperator and <code>-k3</code> for the third column. For descending order I will use the reverse flag <code>-r</code> and make sure to numeric sort <code>-n</code>.  </p>
+<pre><code>sort -t: -rn -k3 /etc/passwd
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+joseph:x:1000:1000:joseph,,,:/home/joseph:/bin/bash
+hplip:x:126:7:HPLIP system user,,,:/run/hplip:/bin/false
+fwupd-refresh:x:125:135:fwupd-refresh user,,,:/run/systemd:/usr/sbin/nologin
+</code></pre>
+<p>Keep in mind this is a file we are reading so it can come after the command, the previous command <code>lsmod</code> was not a file, so I had to pipe the output into <code>sort</code>.</p>
+<h4 id="file-metadata">File Metadata</h4>
+<p>Inodes keep track of files and directories in Linux, they contain everything but the filename and contents. This includes permissions, timestamps, file size, and ownership. Find exact inodes with <code>ls -i</code>.</p>
+<pre><code>ls -i
+18219914 file1  18221167 file2  18256138 file3
+</code></pre>
+<p>Two commands are used to check metadata, <code>file</code> and <code>stat</code>. File is much simpler and is often used to check the type of a file. Stat shows much more information, including file size, modification and access time, user and group ID, etc. This is read directly from the Inode.</p>
+<pre><code>$ file obs.sh
+obs.sh: Bourne-Again shell script, ASCII text executable
+
+$ stat obs.sh
+  File: obs.sh
+  Size: 694         Blocks: 8          IO Block: 4096   regular file
+Device: 802h/2050d  Inode: 18220124    Links: 2
+Access: (0775/-rwxrwxr-x)  Uid: ( 1000/     joe)   Gid: ( 1000/     joe)
+Access: 2023-12-09 12:58:05.139821191 -0600
+Modify: 2023-10-15 11:13:26.272931896 -0500
+Change: 2023-12-09 12:58:02.799821244 -0600
+ Birth: 2023-10-15 11:13:26.272931896 -0500
+</code></pre>
+<h4 id="archiving-and-compressing">Archiving and Compressing</h4>
+<p>Compressed files use less disk space and download faster over a network. On Windows, often files are downloaded in a zip format, which then are unzipped (decompressed). When installing software on Linux, file are often archived and compressed with a <code>tar.gz</code> ending. An archive is simply a collection of files and/or directories with <code>tar</code> (tape archive). The <code>gz</code> ending means its been compressed using <code>gzip</code>. </p>
+<p>As an example, I will extract, meaning take from an archive, and decompress the files in <code>nvim-linux64.tar.gz</code>. <code>x</code> is extract, <code>v</code> for verbose, <code>f</code> for file, and <code>C</code> to place it in a directory. </p>
+<pre><code>sudo tar -xvf nvim-linux64.tar.gz -C /usr/local/lib
+</code></pre>
+<p>Note it is not necessary to mention the compression type, such as <code>z</code> for gzip, <code>J</code> for xz and so on. <code>tar</code> will automatically detect the compression type. These flags are only necessary when creating compressed archives.</p>
+<p>In all the compression tools, there is an direct relationship between CPU processing time (compression time) and compression ratio. What this means is there is a trade off. If you want the maximum amount of disk space saved, it will require more CPU processing power and time to compress. If you want to save on CPU processing or time, a lower compression ratio can be used, but will use more disk space.</p>
+<p>In general <code>xz</code> achieves the highest compression level, followed by <code>bzip2</code> and then <code>gzip</code>. In order to achieve better compression however <code>xz</code> usually takes the longest to complete, followed by <code>bzip2</code> and then <code>gzip</code>.</p>
+<p>Each program has similar syntax. With no arguments, they compress. <code>-d</code> will decompress. Each deletes the input file during compression or compression. Use <code>-k</code> to keep it, verbose <code>-v</code> to display compression ratio, and <code>-t</code> for integrity test on compressed files.   </p>
+<p>To demonstrate, I will create a 100 megabyte file, and compress using each. <code>dd</code> is a powerful but dangerous command, so be careful. <code>dev/zero</code> as the input file (<code>if</code>) is just an endless stream of null characters, which are ASCII code zero and signifies the end of a string (\0).</p>
+<pre><code>❯ dd if=/dev/zero of=bigfile bs=1M  count=100 
+100+0 records in
+100+0 records out
+104857600 bytes (105 MB, 100 MiB) copied, 0.0834263 s, 1.3 GB/s
+❯ xz -k bigfile; gzip -k bigfile; bzip2 -k bigfile
+❯ ls -lh
+total 101M
+-rw-rw-r-- 1 promptier promptier 100M Dec 23 10:11 bigfile
+-rw-rw-r-- 1 promptier promptier  113 Dec 23 10:11 bigfile.bz2
+-rw-rw-r-- 1 promptier promptier 100K Dec 23 10:11 bigfile.gz
+-rw-rw-r-- 1 promptier promptier  16K Dec 23 10:11 bigfile.xz
+</code></pre>
+<p>Comparing the sizes, gzip shrunk it down to 100K, while xz came in at 16K. bzip2 came at 113 bytes, which I am unsure how.</p>
+<h4 id="backup-with-dd">Backup with dd</h4>
+<p><code>dd</code> is a tool that will copy everything from a file, bit by bit, in the same order. It is known by many names, including "disk dump", "disk destroyer" and "(d)on't (d)o it". It can be dangerous if you don't know what you are doing. Specify your input file <code>if</code> and output file <code>of</code>. The following are some common uses.</p>
+<p>Create backup image file of a drive then restore to another drive.</p>
+<pre><code>dd if=/dev/sda of=~/backup.img
+dd if=~/backup.img of=/dev/sdb
+</code></pre>
+<p>You could also copy directly to another drive if desired.</p>
+<p>We can also use special character devices to zero out/wipe a disk or add a layer of encryption.</p>
+<pre><code>dd if=/dev/zero of=/dev/sda
+dd if=/dev/urandom of=/dev/sdb
+</code></pre>
+<h4 id="text-editors">Text Editors</h4>
+<p>Though I will not provide an entire guide of either Nano or Vim, I will touch on them briefly and give my advice on which you should spend your time using. </p>
+<p>Nano is easy to use and will perform the job just as well as Vim. However, if you plan to spend a lot of time at the terminal, learning <code>vim</code> will initially set you back in term of speed productivity, but will be worth the ROI in one to two weeks of use. </p>
+<p>Vim movements are not just confined to the editor. Try opening up a man page and you will find the same navigation keys such as <code>k</code> and <code>j</code> for up and down, <code>gg</code> and <code>G</code> to move to the top and bottom of the file, and <code>/</code> to search. </p>
+<p><code>less</code> is a program that displays the contents of a file one page/screen at a time, as opposed to using <code>cat</code> and then viewing the contents through stdout. Similar to man pages, less also has vim like navigation.  </p>
+<p>Overall, learning vim will not just help you while using the editor, but provide universal navigation across many programs on Unix-like systems. Additionally, once you have the Vim movements to muscle memory, you can bring these keybindings to any text editor or note taking app. Both Vscode and Obsidian are two examples which support vim, either nativity or through third party extension, this makes Vim a valuable skill to acquire for Linux and beyond. </p>
+<h4 id="rsync">Rsync</h4>
+<p>Rsync (Remote Synchronization) was an algorithm presented in a <a href="https://www.samba.org/~tridge/phd_thesis.pdf">PhD thesis</a> for sorting and syncing for remote data update. In the first phase, a client and server is defined, the client initiates and connects to the server either locally, via remote shell or via network socket. After connections is established, the client and server assume the roles of sender and receiver respectively. Rsync Takes into account the file path, ownership, mode (read, write, etc.), permissions, size, modification time, and an optional checksum. Primarily, rsync determines which files differ between the sender and receiver by comparing the modification time and size of each file.</p>
+<p>The general use is to copy contents of <code>dir1</code> to <code>dir2</code>. Keep in mind if a file already exists in <code>dir2</code>, it will simply ignore it, unless there is a more recent modification time, in which case it will be updated, hence the nature of syncing.</p>
+<pre><code>~$ rsync -r dir1/ dir2
+</code></pre>
+<p>Instead of recursive <code>-r</code>, many use archive <code>-a</code>, which preserves links, timestamps, permission, etc. as well as recursively copies. Run <code>-v</code> for verbose. </p>
+<p>If copying a large number of files to a remote server, it is recommended to dry run first to simulate the command without actually running it to catch errors before they cause problems.</p>
+<pre><code>rsync -av --dry-run send-dir joe@8.8.8.212:/home/recieve-dir
+</code></pre>
+<p>Here was me backing up my downloads folder to an external USB.</p>
+<pre><code>sudo rsync -av /home/promptier/downloads/ /media/promptier/USB/downloads/
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>

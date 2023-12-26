@@ -1,0 +1,1140 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../2.0%20Security/Permissions-Octal%20Values/">
+      
+      
+        <link rel="next" href="../3.5%20Cloud%20%26%20Orchestration%20Concepts/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>3.1 Bash scripting - Study Linux</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#brace-expansion" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Study Linux" class="md-header__button md-logo" aria-label="Study Linux" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Study Linux
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              3.1 Bash scripting
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Study Linux" class="md-nav__button md-logo" aria-label="Study Linux" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Study Linux
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1. 0 System Management
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            1. 0 System Management
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%200%20System%20Management/1.1%20Linux%20Fundumentals/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.1 Linux Fundumentals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%200%20System%20Management/1.2%20Manage%20Files%20and%20Directories/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.2 Manage Files and Directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%200%20System%20Management/1.3%20Storage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.3 Storage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%200%20System%20Management/1.4%20Processes%20and%20Services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.4 Processes and Services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%200%20System%20Management/1.5%20Networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.5 Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%200%20System%20Management/1.6%20Package%20Management%20and%20Sandboxed%20Apps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.6 Package Management and Sandboxed Apps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1.%200%20System%20Management/1.7%20Manage%20Software%20Configurations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.7 Manage Software Configurations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2.0 Security
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            2.0 Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.1%20PKI-Certs-Auth-Linux%20Hardening/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.1 PKI Certs Auth Linux Hardening
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.2%20Identity%20Management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.2 Identity Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.3%20Firewalls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.3 Firewalls
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.4%20SSH%20and%20Excecuting%20Commands%20as%20Another%20User/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.4 SSH and Excecuting Commands as Another User
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.5%20Access%20Controls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.5 Access Controls
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/Permissions-Octal%20Values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Permissions Octal Values
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3.0 Scripting, Containers, Automation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            3.0 Scripting, Containers, Automation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    3.1 Bash scripting
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    3.1 Bash scripting
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#brace-expansion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Brace Expansion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-substitution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Substitution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#globbing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Globbing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#here-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Here Documents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#here-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      Here String
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shell-control-and-redirection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shell control and redirection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#script-utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script Utilities
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3.5%20Cloud%20%26%20Orchestration%20Concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.5 Cloud & Orchestration Concepts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Infrastructure%20as%20Code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infrastructure as Code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#brace-expansion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Brace Expansion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#command-substitution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Substitution
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#globbing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Globbing
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#here-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Here Documents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#here-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      Here String
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shell-control-and-redirection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shell control and redirection
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#additional" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additional
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#script-utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      Script Utilities
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>3.1 Bash scripting</h1>
+
+<h5 id="brace-expansion">Brace Expansion</h5>
+<pre><code class="language-bash">❯ echo {1..5}
+1 2 3 4 5
+❯ echo {0..20..2}
+0 2 4 6 8 10 12 14 16 18 20
+❯ echo {a..f}
+a b c d e f
+
+❯ touch file{1..4}.txt
+❯ ls
+file1.txt  file2.txt  file3.txt  file4.txt 
+
+❯ cp -p file.config{,.bak}
+❯ ls
+file.config  file.config.bak
+
+❯ echo {contents,paper,bilbiography}.md
+contents.md  paper.md  bilbiography.md
+
+❯ wget https://www.some-url.com/picture{1..8}.jpg
+</code></pre>
+<h5 id="command-substitution">Command Substitution</h5>
+<p>Capture the output of a command, and store it in a variable.</p>
+<pre><code class="language-bash">var=$(command)
+</code></pre>
+<p>or</p>
+<pre><code class="language-bash">var=`command`
+</code></pre>
+<pre><code class="language-bash">my_date=`date +%m-%d-%Y`
+#OR
+my_date=$(date +%m-%d-%Y)
+echo &quot;You accessed this date on $my_date&quot;
+</code></pre>
+<p>Output</p>
+<pre><code>You accessed this date on 09-13-2023
+</code></pre>
+<h5 id="globbing">Globbing</h5>
+<p>Globbing in Bash refers to how the shell interprets special characters such as <code>*</code>, and <code>?</code> which are commonly used to match filenames. Bash itself cannot recognize regular expressions, instead we use tools like <code>sed</code> and <code>awk</code>. It is important to distinguish globbing and regex as they can be easily confused.</p>
+<p>The question mark matches any single character while the asterisks matches zero or more characters.</p>
+<pre><code class="language-bash">❯ ls file?.txt
+file1.txt  file2.txt  file3.txt file4.txt file5.txt
+
+❯ ls file[1-3].txt
+file1.txt  file2.txt  file3.txt
+
+❯ ls *.txt
+dep.txt  file1.txt  file2.txt  file3.txt  file4.txt file5.txt   marks.txt
+
+❯ ls file?+(.png|.txt)
+file1.png  file1.txt  file2.png  file2.txt  file3.png  file3.txt  file4.png  file5.png
+</code></pre>
+<h5 id="here-documents">Here Documents</h5>
+<p>Send multiple lines of text to a command or shell script.</p>
+<pre><code>command &lt;&lt; [marker]
+input
+[marker]
+</code></pre>
+<pre><code>❯ sort &lt;&lt; END
+∙ 3
+∙ 2
+∙ 4
+∙ 1
+∙ END
+1
+2
+3
+4
+</code></pre>
+<h5 id="here-string">Here String</h5>
+<p>Send one line of text to a command or shell script.</p>
+<pre><code>❯ wc -c &lt;&lt;&lt; &quot;String with many characters&quot;
+28
+
+❯ foo=&quot;bar&quot;
+❯ sed 's/a/A/' &lt;&lt;&lt; &quot;$foo&quot;
+ bAr
+</code></pre>
+<h5 id="shell-control-and-redirection">Shell control and redirection</h5>
+<p><code>&gt;&amp;</code>, <code>&amp;&gt;</code>, <code>&gt;&gt;&amp;</code> and <code>&amp;&gt;&gt;</code> : (read above also) Redirect both standard error and standard output, replacing or appending, respectively.</p>
+<h5 id="additional">Additional</h5>
+<p><code>source</code> reads and executes the contents of a file as sets of commands in the <strong>current shell</strong>.</p>
+<p>Here is a file called commands.txt</p>
+<pre><code>echo &quot;Your current directory is `pwd`&quot;
+echo &quot;The date is `date +%m-%d`&quot;
+</code></pre>
+<pre><code>❯ source commands.txt
+Your current directory is /home/promptier/Desktop/bash
+The date is 11-20
+</code></pre>
+<p>Note <code>source script</code> is equivalent to <code>. script</code>, not to be confused with <code>./script</code>, which runs the script as an executable file, launching a <strong>new shell</strong> to run it.</p>
+<p>The <code>type</code> command is useful to learn more about a command. If it is a shell built in, it will not have a man page, instead, read about it using <code>man bash</code>.</p>
+<pre><code>❯ man source
+No manual entry for source
+
+❯ type source
+source is a shell builtin
+</code></pre>
+<p>The <code>$PATH</code> variable contains a list of directories the system checks before running a command. Instead of running <code>/usr/bin/python3</code>, we can just run <code>python3</code> because <code>/usr/bin</code> is located in the path.</p>
+<p>If you install a program that is not located in the <code>$PATH</code> variable, you can add it with either of the following two ways: </p>
+<pre><code class="language-bash">export PATH=/the/file/path:$PATH $
+#adds to the beginnning and will be checked first
+#OR
+export PATH=$PATH:/the/file/path
+#adds to the end and will be checked last
+</code></pre>
+<h5 id="script-utilities">Script Utilities</h5>
+<p>By default, <code>tee</code> will overwrite files, use <code>-a</code> to append: </p>
+<pre><code>command | tee -a file
+</code></pre>
+<p>Tee can also be useful when writing to a protected file.</p>
+<pre><code>echo &quot;newline&quot; | sudo tee -a secret.txt
+</code></pre>
+<p>It is called "tee" as it resembles the letter "T" as well as the T-splitter in plumming since it takes from STDIN and "splits" or writes to both STDOUT and files. </p>
+<p><code>egrep</code>, <code>fgrep</code> and <code>rgrep</code> are the  same  as  <code>grep -E</code>, <code>grep -F</code>, and <code>grep -r</code>.</p>
+<p><code>grep -F</code> is a fixed string, meaning you want the string to be passed verbatim, and not interpreted as special regex. Such as if the search includes a dot <code>user.txt</code> that you <em>don't</em> want to be interpreted as a regex wildcard.</p>
+<p><code>grep -E</code> is extended grep, which can be used for fancy expressions, like <code>()</code> for groups and <code>|</code> for OR. Here we search for any line that starts with "fork" or "group".</p>
+<pre><code>❯ grep -E '^no(fork|group)' /etc/group
+nogroup:x:65534:
+</code></pre>
+<p>If you used regular grep without the -E, you'd have to escape out the special characters or else they'd be searched literally.</p>
+<pre><code>grep '^no\(fork\|group\)' /etc/group
+</code></pre>
+<p>As another useful example, we search for PCI devices starting with either "ethernet" or "network" with an insensitive search.</p>
+<pre><code>❯ lspci | egrep -i 'ethernet|network'
+00:19.0 Ethernet controller: Intel Corporation 82579LM Gigabit Network Connection (Lewisville) (rev 04)
+03:00.0 Network controller: Intel Corporation Centrino Advanced-N 6205 [Taylor Peak] (rev 34)
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>

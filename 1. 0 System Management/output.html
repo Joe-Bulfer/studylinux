@@ -1,0 +1,189 @@
+<h3 id="file-system-hierarchy-fhs">File System Hierarchy (FHS)</h3>
+<p>The FHS is a standard describing the layout of Unix-like systems. Regardless of what distribution you are on, you will always encounter these same directories, so it is worth understanding. Throughout exploring these directories you will come to learn that in Linux, <em>everying is a file</em>. Your entire memory is represented in a single file as <code>/dev/mem</code>. Each ongoing process is represented as a directory with associated files in <code>/proc</code>, and so on. Learning these directories and their role in the FHS is fundumental to Linux and give you foundation for the rest of the sections.</p>
+<p>Try listing (<code>ls</code>) each directory and explore on your own system.</p>
+<pre><code>ls /
+    bin   cdrom      dev  home  lib32  libx32    media  opt   root  sbin  swapfile tmp  varboot   etc  lib   lib64  lost+found  mnt    proc  run   srv   sys       usr</code></pre>
+<h5 id="boot">/boot</h5>
+<p>Upon starting a Linux system, after the BIOS or EUFI firmware has selected a boot device, such as a hard disk or SSD, it searches for a bootloader within that device inside the /boot directory. Grub (Grand Unified Bootloader) then uncompresses the <code>vmlinuz</code> executable file into memory. <code>vmlinuz</code> is an image of the entire kernel. compressed into one file.</p>
+<p>The next step after the kernel has been loaded into memory, is Grub handing over control to the kernel to complete the boot process. A temporary root file system is created with <code>initrd</code> (initial ramdisk) that contains just enough loadable modules to give the kernel access to the rest of the hardware.</p>
+<p>In many systems, boot is a seperate partition, you can check this by listing block devices with <code>lsblk</code>. You can see on my NVME card, it is indeed a seperate partition.</p>
+<pre><code>lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+nvme0n1     259:0    0   1.8T  0 disk 
+├─nvme0n1p1 259:1    0   260M  0 part /boot/efi</code></pre>
+<h5 id="proc">/proc</h5>
+<p>The process directory contains a subdirectory for every ongoing process, similar to what is displayed in Windows Task Manager or Linux <code>top</code> command. The process with PID (process ID) of 1, <code>/proc/1</code>, is a special process know as the init process which is responsible for starting essential system services, and which all other processes are children of. This is often managed by <code>systemd</code>, replacing <code>init</code>.</p>
+<p>proc is one of the three virtual/psuedo filesystems as it creates files dynamically, on the spot to represent the current processes.</p>
+<p>Besides ongoing processes, the <code>/proc</code> directory also contains some kernel and hardware information. At one point in history, this got messy and Linux developers decided to create another directory <code>/sys</code> to contain this.</p>
+<h5 id="sys">/sys</h5>
+<p>As the second virtual filesystem, sys generates files and directories to represent the current hardware layout. This provides an interface to the kernel.</p>
+<pre><code>ls sys
+block  bus  class  dev  devices  firmware  fs  hypervisor  kernel  module  power</code></pre>
+<h5 id="var">/var</h5>
+<p><code>/var</code> contains variable data that is expected to change and grow during operation. This includes log files, mail, cache and more. <code>var/spool</code> contains files waiting to be excecuted such as printer ques and cron jobs. <code>/var/lib</code> contains state information of applications or the system, this is data that programs modify as they run, this is often for preserving condition of an application between instances. <code>/var/tmp</code> is for temporary files that persist across reboot. Unlike <code>/tmp</code> which is removed after a reboot.</p>
+<pre><code>ls var
+backups  cache  lib  local  lock  log  mail opt  run  spool  tmp</code></pre>
+<h5 id="usr">/usr</h5>
+<p><code>/usr</code> contains user-related data, programs and resources. Files not necessary for single user mode, a minimal system state for troubleshooting and maintenance. Most command’s binaries that are commonly ran in the terminal are within <code>/usr/bin</code>. These are commands considered non-essential, as opposed to built in shell commands.</p>
+<pre><code>which cd
+cd is a shell builtin
+
+which ls
+/usr/bin/ls</code></pre>
+<p><code>/usr/local</code> contains locally installed software and files that are seperate from the core operating system and package management system.</p>
+<h5 id="lib-bin-and-sbin">/lib, /bin and /sbin</h5>
+<p><code>/lib</code> contains libraries for <code>/bin</code> and <code>/sbin</code>. sbin is essential binaries with superuser (root) priviledges. Bin is similar and contains trivial binaries such as <code>cat</code> and <code>ls</code> . Both are required for single user mode.</p>
+<h5 id="dev">/dev</h5>
+<p><code>/dev</code> is the third virtual file system and contains a layout of devices. When you plugin a USB, it will appear as <code>/dev/sda</code>, if you plugin another, it will appear as <code>dev/sdb</code>.</p>
+<p>Most device files are either character or block type. Using the long <code>-l</code> format of <code>ls</code>, we can see the type by the first letter. Character devices, which begin with a letter <code>c</code>, do not have buffering, and are accessed through a stream of sequential data, one byte after another. Block (<code>b</code>) devices are accessed through a cache, and get their name because they are often read/write to a block at a time.</p>
+<p>The first special character device, <code>dev/zero</code>, provides an endless stream of null characters, which can be used to zero out a hard disk. <code>dev/null</code> is essentially a black hole that discards anything directed into it. <code>dev/urandom</code> is a unlimited cryptographic (psuedo) random number generator.</p>
+<pre><code>ls -l /dev
+crw-rw-rw-   1 root root      1,     5 Oct 30 14:10 zero
+crw-rw-rw-   1 root root      1,     3 Oct 30 14:10 null
+crw-rw-rw-   1 root root      1,     9 Oct 30 14:10 urandom</code></pre>
+<p>Some use cases of <code>urandom</code> include generating passwords, and to generate entropy for TLS/SSL modules like <code>mod_ssl</code> on Apache web servers.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="op">&lt;</span> <span class="ex">/dev/urandom</span> tr -dc _A-Z-a-z-0-9 <span class="kw">|</span> <span class="fu">head</span> -c12<span class="kw">;</span><span class="bu">echo</span></span></code></pre></div>
+<h5 id="etc">/etc</h5>
+<p>At some point in Unix history, this likely stood for “etcetera”, though now some like to squeeze in the acronym “editable text configuration”. Although most simply pronounce it “etsy” and know it as the place for configuration files.</p>
+<h5 id="opt">/opt</h5>
+<p>The FHS standard defines <code>/opt</code> as “software and add-on packages that are not part of the default installation”. Often when a company is deploying an application, they have the option of either placing it all in one directory in <code>/opt/[application]</code> or share it’s files across <code>/usr/local/bin</code> and <code>/usr/local/lib</code>.</p>
+<h3 id="boot-process">Boot Process</h3>
+<h4 id="step-by-step-boot-process">Step by Step Boot Process`</h4>
+<ol type="1">
+<li>Firmware (UEFI/BIOS)
+<ul>
+<li>When you turn on a computer, the firmware built into the hardware initiates the boot process.</li>
+<li>It performs a power-on-self-test (POST) to check hardware components and initialize them.</li>
+<li>The firmware looks for a boot device, usually the hard drive or SSD, where the bootloader is stored.</li>
+</ul></li>
+<li>Bootloader (GRUB)
+<ul>
+<li>Once the firmware identifies the boot device, it hands over control to the bootloader.</li>
+<li>The bootloader loads the kernel into memory and passes control to it.</li>
+</ul></li>
+<li>Kernel
+<ul>
+<li>The kernel is the core of the operating system. It initializes hardware, manages memory, and provides essential services to user programs.</li>
+<li>It mounts the root file system, initializes drivers for hardware components, and starts user space initialization.</li>
+</ul></li>
+<li>User Space
+<ul>
+<li>After the kernel initializes, it starts the user space by launching systemd (previously init). This is the first process and can be seen with <code>pstree</code> or <code>ps -p 1</code>.</li>
+</ul></li>
+</ol>
+<p>Depending on the firmware (BIOS or EUFI), a hard disk or SSD will have 1 of 2 partitioning schemes, MBR or GPT.</p>
+<p>Master Boot Record (MRB) is used in older systems that is the first 512 bytes of a storage device which contains how and where the operating system is located in order to be booted. Legacy BIOS systems using MBR can only support drives up to 2TB and up to 4 partitions.</p>
+<p>The bootstrap binary of a BIOS equipped machine is located in the MBR of the first storage device.</p>
+<p>GUID Partition Table (GPT) is the newer standard that works with UEFI that can have any number of ESP (EFI System Partitions) anywhere an a drive to load multiple operating systems, unlike MBR, which is limited to one. GPT also supports virtually unlimited size and up to 128 partitions.</p>
+<p>EUFI boot process searches for EFI applications which are usually bootloaders, such as GRUB, which can either act as a EFI application or a BIOS bootloader for older setups. ESP is where EFI applications are stored and are automatically created on the storage device during OS installation.</p>
+<p>Older BIOS systems often overwrited MBRs during installation of multiple OS’s, GPT makes this easier becuase ESP can be located anywhere on the drive, they are not location dependent, like MBR, which must be at the first 512 bytes of the drive.</p>
+<h4 id="boot-files-and-commands">Boot Files and Commands</h4>
+<p><strong>mkinitrd</strong> - creates an initial ram disk image <code>initrd.img</code> which is used by the kernel for preloading the block device modules (such as IDE, SCSI or RAID) which are needed to access the root filesystem. <strong>dracut</strong> - a more modern alternative to <code>mkinitrd</code> <strong>grub-install</strong> - installs grub onto a device, usually <code>boot/grub</code> <strong>grub-mkconfig</strong> - either generates a new <code>grub.cfg</code> file or updates the existing one also located in <code>boot/grub</code> <strong>grub-update</strong> - stub for <code>grub-mkconfig -o /boot/grub/grub.cfg</code></p>
+<p><strong>initrd.img</strong> - initrd is mounted in memory to determine which kernel modules are are needed to support the current hardware. Explanation on <a href="https://www.linuxquestions.org/questions/linux-kernel-70/creating-vmlinuz-and-initrd-on-distribution-media-590730/#post2920395">forum</a> <strong>vmlinuz</strong> - the entire compressed kernel which is uncompressed and begins the initial systemd/init process, which starts all other processes <em>Both are used both during the initial OS install, and every boot therafter</em>.</p>
+<p>Note: <code>vmlinuz</code> kernel image is loaded first by the bootloader, followed by the <code>initrd</code>. The <code>initrd</code> serves as an intermediary step to initialize hardware and load necessary drivers before transitioning to the actual root file system.</p>
+<p><code>initrd</code> and <code>initramfs</code> are just two different methods of loading a temporary root file system into memory to start early kernel modules.</p>
+<p><strong>dracut</strong> similar to initrd in providing an initial ramdisk during boot process and is a more modern and flexible tool that dynamically generates ramdisk images based on the system’s hardware. It has replaced initrd in some distributions.</p>
+<p>Here are two short descriptions of dracut from the <a href="https://man7.org/linux/man-pages/man8/dracut.8.html">man</a> page and it’s <a href="https://github.com/zfsonlinux/dracut">github</a> repository repsectively: “low-level tool for generating an initramfs/initrd image” “a new initramfs infrastructure”</p>
+<p><strong>Kernel Panic</strong> - Critical error condition that usually results in the entire system becoming unresponsive and requiring a reboot. Nothing is userspace runs during and after the system panics, it will instead immediately shutdown all other CPUs, and the current CPU processing the panic will never return to userspace #### Boot Sources ##### Preboot Excecution Environments (PXE) PXE is meant for booting off of a network, as opposed to a local storage device. This is done through TFTP (Trivial File Transfer Protocol), a simpler FTP which does not require authentication,. Once connected, the server will tell the client where to locate the boot files. iPXE is the newer protocol which uses HTTP to pull files. PXE and iPXE are essentially just one approach to provisioning and automate the deployment of operating systems and configurations for servers. ##### Optical Disc Image (ISO) ISOs are copies of of entire optical disks such as DVDs or CDs. Although bootable USB drives have largely replaced optical media, ISO files can still be used to create bootable USB sticks. The most common tool to create bootable drives is Rufus, although on my Linux Mint system below, I have downloaded a Fedora ISO, which I can create into a bootable stick from the file manager itself.</p>
+<p>[[iso-file.png]]</p>
+<h3 id="basic-package-compilation-from-source">Basic Package Compilation From Source</h3>
+<p>Although software is often installed with a package manager (APT, RPM, etc.), there are times when it is necessary to install from source code. This could be when you are writing the software yourself, or the software is not listed in your package manager.</p>
+<p>Linux distros rarely come with the compiling/build tools themselves. To install on Debian based distros, run <code>sudo apt install build-essential</code> or <code>sudo dnf groupinstall "Development Tools"</code> on Red Hat based distros. These both install a set of essential development tools and libraries necessary for building software from source code.</p>
+<p>The following three commands are commonly used together and in this order to build and install software from source code on Unix-like systems. #### ./configure Configures the software build process. It checks the system for dependencies, sets build options, and generates a Makefile from Makefile.in that contains instructions for compiling the software. #### make running <code>make</code> will use the Makefile to build the program. It compiles the source code and produces executable binaries. I recommend running <code>man make</code> and digging around, here is a snippet:</p>
+<pre><code>The  make  utility will determine automatically which pieces of a large program need to be recompiled, and issue the commands to recompile them. ...  Our examples show C programs, since they are  very  common,  but  you can use make with any programming language whose compiler can be run with a shell command.  In fact, make is not limited to programs.  You can use it to describe  any task  where  some  files  must  be  updated  automatically from others whenever the others change.</code></pre>
+<h4 id="make-install">make install</h4>
+<p>This command will also use the Makefile but will use it to install the program once it has been compiled. This involves installing binaries, libraries, and other necessary files to make the software available to use.</p>
+<h4 id="example">Example</h4>
+<p>To practice these commands, you can go to <a href="https://ftp.gnu.org/gnu/hello/">gnu.org</a> and download the hello-2.12.tar.gz at the very bottom.</p>
+<p>You can extract the file with <code>tar -zxvf [file]</code>. The <code>z</code> flag is for g-zipped files, hence the <code>.gz</code>. <code>x</code> for extract, optional <code>v</code> for verbose output, and <code>f</code> to specify the file. This should create a directory of the extracted files.</p>
+<p>Once in that directory, <code>ls</code> to make note of the file <code>configure</code> , then run <code>./configure</code> to execute it. Now with a <code>makefile</code>, run <code>make</code>. This should create an executable <code>hello</code> which can be ran with <code>./hello</code>. You should get a “Hello World!” output on your terminal.</p>
+<h3 id="basic-storage-concepts">Basic Storage Concepts</h3>
+<h4 id="block-storage">Block Storage</h4>
+<ul>
+<li>No Metadata, or very minimal (basic file attributes)</li>
+<li>Each block has a unique ID</li>
+<li>Filesystems are often built on top of blocks</li>
+<li>Accessed through iSCSSI, a networking protocol</li>
+<li>Used in SANs (Storage Area Network) or cloud based storage</li>
+<li>highly performant and scalable, though expensive</li>
+<li>Examples include relational databases, email servers and VMWare’s Virtual Machine Filesystem (VMFS) #### Object Storage</li>
+<li>Relatively new concept, often used in the cloud, Amazon S3 is a common example</li>
+<li>Often accessed through an API</li>
+<li>stored in “data lakes” or “pools” in a flat manner, with no file hierarchy</li>
+<li>ease of searchability and cost efficient. Best for large unstructured data.</li>
+<li>each block has metadata (size, date modified, permissions, etc.) and an UUID</li>
+<li>poor performance because of the heavy metadata overhead #### File Storage</li>
+<li>Oldest and most widely used storage system</li>
+<li>Used with NAS (Network Attached Storage)</li>
+<li>Tree-like, hierarchical structure with files within nested folders, each being a child or parent</li>
+<li>Not very scalable</li>
+<li>Can be visualized with the <code>tree</code> command.</li>
+</ul>
+<pre><code>tree
+.
+├── Desktop
+│   ├── bash
+│   │   ├── dep.txt
+│   │   ├── folders.sh
+│   │   └── tar
+│   │       ├── file1
+│   │       ├── file2
+</code></pre>
+<h3 id="filesystem-in-userspace-fuse">Filesystem in Userspace (FUSE)</h3>
+<p>Used to mount and unmount filesystems in userspace without requiring root level, kernel access. Commonly used by <code>sshfs</code>, a tool to mount a remote filesystem using SFTP. Another example that uses FUSE are [[1.6 Package Management and Sandboxed Apps#Appimages|Appimages]]</p>
+<p>From the man page of <code>fusermount</code></p>
+<pre><code>Simple interface for userspace programs to export a virtual filesystem to the Linux kernel. It also aims to provide a secure method for non privileged users to create and mount their own filesystem implementations.</code></pre>
+<h3 id="raid">RAID</h3>
+<p>RAID stand for <em>Redundant Array of Independent/Inexpensive Disks</em>. RAID gives a group of hard drives or block storage devices redundancy and data protection against disc failure. Different RAID levels offer different degrees of fault tolerance. <a href="https://www.youtube.com/watch?v=U-OCdTeZLac">Animated Video Explaining RAID 0, 1 and 10</a></p>
+<p><strong>Raid 0</strong> - Isn’t even RAID in a sense, as it provides <em>zero</em> fault tolerance - Raid 0, or “disk striping”, splits data across drives evenly. - With 4 drives and a 4 megabyte file being saved, 1 megabyte per drive is spread across and thus increases speed. This also means each drives space is being taken advantage of. - Very fast but if even one drive fails, all data is lost, this means RAID 0 isn’t just not fault tolerant, it increases the chances of data loss.</p>
+<p><strong>Raid 1</strong> - Known as “mirroring”, data is stored on a drive in addition to each mirror drive. Atleast 2 drives are required for RAID 2 - A drive can fail and the controller will just use either use the first drive or any of it’s mirrors for data recovery and continuous operation. - A disadvantage is less effective storage capacity as all data gets written at least twice</p>
+<p><strong>Raid 5</strong> - RAID 5 stripes data across each drive and provides fault tolerance with each drive having a parity. - Each parity is equivalent to an entire drive, meaning if you have 4 disks totaling 4 terabytes, only 3 terabytes will be used for actual data storage. - Can only handle 1 disk failure at a time</p>
+<p><strong>Raid 6</strong> - A more fault tolerant RAID 5 that can handle 2 disk failures at once as parity is spread twice to all disks. - Minimum of 4 disks required. - In a setup of 4 disks totaling 4 terabytes, only 2 terabytes of actual data storage is available, as 2 disks are used to store a double parity. - Read performance is the same as RAID 5, but write performance is slower as it must write double the parity blocks instead of 1. <a href="https://www.youtube.com/watch?v=UuUgfCvt9-Q&amp;t=3s">Animated Video of RAID 5 and 6</a></p>
+<p><strong>Raid 10</strong> - 2 drives are mirrored in a RAID 1 setup, with a minimum of 4 drives. - Combines the fault tolerance of RAID 1 and the speed of RAID 0 - The downside is you can only use 50% of space for actual storage, the other half is mirrored. ### Listing Hardware Information</p>
+<p>Linux Kernel Modules related to hardware devices are also called drivers. <code>lspci</code> will list your PCI devices, each starting with a unique address, which more info can be found with <code>lspci -s [address] -v OR -k</code>. This will show what kernel module is in use which can be found in <code>lsmod</code>.</p>
+<p>To find you network card, pipe the output of <code>lspci</code> into <code>grep -i</code> for an insensitive search.</p>
+<pre><code>lspci | grep -i network
+03:00.0 Network controller: MEDIATEK Corp. MT7921 802.11ax PCI Express Wireless Network Adapter</code></pre>
+<p>Now let’s see what kernel modules the network card is using with the verbose <code>-v</code> output.</p>
+<pre><code>lspci -s 03:00.0 -v
+03:00.0 Network controller: MEDIATEK Corp. MT7921 802.11ax PCI Express Wireless Network Adapter
+    DeviceName: Realtek RTL8111E Ethernet LOM
+    Subsystem: Lenovo Device e0bc
+    Physical Slot: 0
+    Flags: bus master, fast devsel, latency 0, IRQ 73, IOMMU group 11
+    Memory at fc02000000 (64-bit, prefetchable) [size=1M]
+    Memory at fc02100000 (64-bit, prefetchable) [size=16K]
+    Memory at fc02104000 (64-bit, prefetchable) [size=4K]
+    Capabilities: &lt;access denied&gt;
+    Kernel driver in use: mt7921e
+    Kernel modules: mt7921e</code></pre>
+<p>We could then use <code>lsmod</code> to find more about the kernel module, such as the size and other modules that are dependent on it.</p>
+<pre><code>lsmod | grep mt7921e
+mt7921e                94208  0</code></pre>
+<p><code>lsusb</code> is similar to the previous command. With option -t, command lsusb shows the current USB device mappings as a hierarchical tree. A specific USB device can be found with the <code>-d</code> flag followed by the id.</p>
+<pre><code>lsusb -vd 1d6b:0003
+
+[very verbose output]</code></pre>
+<p><code>dmidecode</code> is a tool for dumping a computer’s DMI table contents in a human readable from. This includes detailed hardware information as well as serial numbers and BIOS revision that does not require probing the actual hardware. Use the type flag <code>-t</code> to specify what hardware, such as <code>dmidecode -t memory</code> or <code>dmidecode -t processor</code>.</p>
+<p>Here are some output from <code>dmidecode</code> from my computer.</p>
+<pre><code>BIOS Information
+        Vendor: LENOVO
+        Version: H3CN32WW(V2.02)
+        Release Date: 02/23/2022
+        BIOS Revision: 1.32
+        Firmware Revision: 1.32
+
+Handle 0x0001, DMI type 1, 27 bytes
+System Information
+        Manufacturer: LENOVO
+        Product Name: 82K2
+        Version: IdeaPad Gaming 3 15ACH6
+        Serial Number: MP2BK1DS
+        UUID: 1c45bdff-12cd-11ed-8c90-e4a8dfe66d9e
+        
+Handle 0x0004, DMI type 4, 48 bytes
+Processor Information
+        Socket Designation: FP6
+        Type: Central Processor
+        Family: Zen
+        Manufacturer: Advanced Micro Devices, Inc.</code></pre>

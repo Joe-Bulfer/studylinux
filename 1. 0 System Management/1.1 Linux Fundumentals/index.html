@@ -1,0 +1,1700 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../about/">
+      
+      
+        <link rel="next" href="../1.2%20Manage%20Files%20and%20Directories/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>1.1 Linux Fundumentals - Study Linux</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#file-system-hierarchy-fhs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Study Linux" class="md-header__button md-logo" aria-label="Study Linux" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Study Linux
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.1 Linux Fundumentals
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Study Linux" class="md-nav__button md-logo" aria-label="Study Linux" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Study Linux
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1. 0 System Management
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            1. 0 System Management
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    1.1 Linux Fundumentals
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    1.1 Linux Fundumentals
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#file-system-hierarchy-fhs" class="md-nav__link">
+    <span class="md-ellipsis">
+      File System Hierarchy (FHS)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File System Hierarchy (FHS)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      /boot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proc" class="md-nav__link">
+    <span class="md-ellipsis">
+      /proc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sys" class="md-nav__link">
+    <span class="md-ellipsis">
+      /sys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#var" class="md-nav__link">
+    <span class="md-ellipsis">
+      /var
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usr" class="md-nav__link">
+    <span class="md-ellipsis">
+      /usr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lib-bin-and-sbin" class="md-nav__link">
+    <span class="md-ellipsis">
+      /lib, /bin and /sbin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      /dev
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etc" class="md-nav__link">
+    <span class="md-ellipsis">
+      /etc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opt" class="md-nav__link">
+    <span class="md-ellipsis">
+      /opt
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boot-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boot Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Boot Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-boot-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step by Step Boot Process`
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boot-files-and-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boot Files and Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boot-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boot Sources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Boot Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preboot-excecution-environments-pxe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preboot Excecution Environments (PXE)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optical-disc-image-iso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optical Disc Image (ISO)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-package-compilation-from-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Package Compilation From Source
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Package Compilation From Source">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      ./configure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make" class="md-nav__link">
+    <span class="md-ellipsis">
+      make
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      make install
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-storage-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Storage Concepts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Storage Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#block-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Block Storage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Object Storage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Storage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filesystem-in-userspace-fuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filesystem in Userspace (FUSE)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raid" class="md-nav__link">
+    <span class="md-ellipsis">
+      RAID
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-hardware-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Hardware Information
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.2%20Manage%20Files%20and%20Directories/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.2 Manage Files and Directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.3%20Storage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.3 Storage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.4%20Processes%20and%20Services/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.4 Processes and Services
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.5%20Networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.5 Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6%20Package%20Management%20and%20Sandboxed%20Apps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.6 Package Management and Sandboxed Apps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.7%20Manage%20Software%20Configurations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.7 Manage Software Configurations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2.0 Security
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            2.0 Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.1%20PKI-Certs-Auth-Linux%20Hardening/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.1 PKI Certs Auth Linux Hardening
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.2%20Identity%20Management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.2 Identity Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.3%20Firewalls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.3 Firewalls
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.4%20SSH%20and%20Excecuting%20Commands%20as%20Another%20User/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.4 SSH and Excecuting Commands as Another User
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.5%20Access%20Controls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.5 Access Controls
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/Permissions-Octal%20Values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Permissions Octal Values
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3.0 Scripting, Containers, Automation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            3.0 Scripting, Containers, Automation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/3.1%20Bash%20scripting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.1 Bash scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/3.5%20Cloud%20%26%20Orchestration%20Concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.5 Cloud & Orchestration Concepts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/Docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/Git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/Infrastructure%20as%20Code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infrastructure as Code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#file-system-hierarchy-fhs" class="md-nav__link">
+    <span class="md-ellipsis">
+      File System Hierarchy (FHS)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="File System Hierarchy (FHS)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      /boot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proc" class="md-nav__link">
+    <span class="md-ellipsis">
+      /proc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sys" class="md-nav__link">
+    <span class="md-ellipsis">
+      /sys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#var" class="md-nav__link">
+    <span class="md-ellipsis">
+      /var
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usr" class="md-nav__link">
+    <span class="md-ellipsis">
+      /usr
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lib-bin-and-sbin" class="md-nav__link">
+    <span class="md-ellipsis">
+      /lib, /bin and /sbin
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dev" class="md-nav__link">
+    <span class="md-ellipsis">
+      /dev
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etc" class="md-nav__link">
+    <span class="md-ellipsis">
+      /etc
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#opt" class="md-nav__link">
+    <span class="md-ellipsis">
+      /opt
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boot-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boot Process
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Boot Process">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-boot-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step by Step Boot Process`
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boot-files-and-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boot Files and Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boot-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Boot Sources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Boot Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preboot-excecution-environments-pxe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preboot Excecution Environments (PXE)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optical-disc-image-iso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optical Disc Image (ISO)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-package-compilation-from-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Package Compilation From Source
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Package Compilation From Source">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure" class="md-nav__link">
+    <span class="md-ellipsis">
+      ./configure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make" class="md-nav__link">
+    <span class="md-ellipsis">
+      make
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make-install" class="md-nav__link">
+    <span class="md-ellipsis">
+      make install
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-storage-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Storage Concepts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Storage Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#block-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Block Storage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#object-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Object Storage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Storage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filesystem-in-userspace-fuse" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filesystem in Userspace (FUSE)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raid" class="md-nav__link">
+    <span class="md-ellipsis">
+      RAID
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-hardware-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      Listing Hardware Information
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>1.1 Linux Fundumentals</h1>
+
+<h3 id="file-system-hierarchy-fhs">File System Hierarchy (FHS)</h3>
+<p>The FHS is a standard describing the layout of Unix-like systems. Regardless of what distribution you are on, you will always encounter these same directories, so it is worth understanding. Throughout exploring these directories you will come to learn that in Linux,  <em>everying is a file</em>. Your entire memory is represented in a single file as <code>/dev/mem</code>.  Each ongoing process is represented as a directory with associated files in <code>/proc</code>, and so on. Learning these directories and their role in the FHS is fundumental to Linux and give you foundation for the rest of the sections.</p>
+<p>Try listing (<code>ls</code>) each directory and explore on your own system.</p>
+<pre><code>ls /
+    bin   cdrom   dev  home  lib32  libx32    media  opt   root  sbin  swapfile
+    tmp  varboot   etc  lib   lib64  lost+found  mnt    proc  run   srv   sys   usr
+</code></pre>
+<h5 id="boot">/boot</h5>
+<p>Upon starting a Linux system, after the BIOS or EUFI firmware has selected a boot device, such as a hard disk or SSD, it searches for a bootloader within that device inside the /boot directory. Grub (Grand Unified Bootloader) then uncompresses the <code>vmlinuz</code> executable file into memory. <code>vmlinuz</code> is an image of the entire kernel. compressed into one file. </p>
+<p>The next step after the kernel has been loaded into memory, is Grub handing over control to the kernel to complete the boot process. A temporary root file system is created with <code>initrd</code> (initial ramdisk) that contains just enough loadable modules to give the kernel access to the rest of the hardware. </p>
+<p>In many systems, boot is a seperate partition, you can check this by listing block devices with <code>lsblk</code>. You can see on my NVME card, it is indeed a seperate partition.</p>
+<pre><code>lsblk
+NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+nvme0n1     259:0    0   1.8T  0 disk 
+├─nvme0n1p1 259:1    0   260M  0 part /boot/efi
+</code></pre>
+<h5 id="proc">/proc</h5>
+<p>The process directory contains a subdirectory for every ongoing process, similar to what is displayed in Windows Task Manager or Linux <code>top</code> command. The process with PID (process ID) of 1, <code>/proc/1</code>, is a special process know as the init process which is responsible for starting essential system services, and which all other processes are children of. This is often managed by <code>systemd</code>, replacing <code>init</code>. </p>
+<p>proc is one of the three virtual/psuedo filesystems as it creates files dynamically, on the spot to represent the current processes. </p>
+<p>Besides ongoing processes, the <code>/proc</code> directory also contains some kernel and hardware information. At one point in history, this got messy and Linux developers decided to create another directory <code>/sys</code> to contain this.</p>
+<h5 id="sys">/sys</h5>
+<p>As the second virtual filesystem, sys generates files and directories to represent the current hardware layout. This provides an interface to the kernel.</p>
+<pre><code class="language-text">ls sys
+block  bus  class  dev  devices  firmware  fs  hypervisor  kernel  module  power
+</code></pre>
+<h5 id="var">/var</h5>
+<p><code>/var</code> contains variable data that is expected to change and grow during operation. This includes log files, mail, cache and more. <code>var/spool</code> contains files waiting to be excecuted such as printer ques and cron jobs. <code>/var/lib</code> contains state information of applications or the system, this is data that programs modify as they run, this is often for preserving condition of an application between instances. <code>/var/tmp</code> is for temporary files that persist across reboot. Unlike <code>/tmp</code> which is removed after a reboot.</p>
+<pre><code class="language-text">ls var
+backups  cache  lib  local  lock  log  mail opt  run  spool  tmp
+</code></pre>
+<h5 id="usr">/usr</h5>
+<p><code>/usr</code> contains user-related data, programs and resources. Files not necessary for single user mode, a minimal system state for troubleshooting and maintenance. Most command's binaries that are commonly ran in the terminal are within <code>/usr/bin</code>.  These are commands considered non-essential, as opposed to built in shell commands. </p>
+<pre><code class="language-text">which cd
+cd is a shell builtin
+
+which ls
+/usr/bin/ls
+</code></pre>
+<p><code>/usr/local</code> contains locally installed software and files that are seperate from the core operating system and package management system.</p>
+<h5 id="lib-bin-and-sbin">/lib, /bin and /sbin</h5>
+<p><code>/lib</code> contains libraries for <code>/bin</code> and <code>/sbin</code>. sbin is essential binaries with superuser (root) priviledges. Bin is similar and contains trivial binaries such as <code>cat</code> and <code>ls</code> . Both are required for single user mode.  </p>
+<h5 id="dev">/dev</h5>
+<p><code>/dev</code> is the third virtual file system and contains a layout of devices. When you plugin a USB, it will appear as <code>/dev/sda</code>, if you plugin another, it will appear as <code>dev/sdb</code>. </p>
+<p>Most device files are either character or block type.  Using the long <code>-l</code> format of <code>ls</code>, we can see the type by the first letter. Character devices, which begin with a letter <code>c</code>, do not have buffering, and are accessed through a stream of sequential data, one byte after another. Block (<code>b</code>) devices are accessed through a cache, and get their name because they are often read/write to a block at a time.</p>
+<p>The first special character device, <code>dev/zero</code>,  provides an endless stream of null characters, which can be used to zero out a hard disk. <code>dev/null</code> is essentially a black hole that discards anything directed into it. <code>dev/urandom</code> is a unlimited cryptographic (psuedo) random number generator.</p>
+<pre><code class="language-text">ls -l /dev
+crw-rw-rw-   1 root root      1,     5 Oct 30 14:10 zero
+crw-rw-rw-   1 root root      1,     3 Oct 30 14:10 null
+crw-rw-rw-   1 root root      1,     9 Oct 30 14:10 urandom
+</code></pre>
+<p>Some use cases of <code>urandom</code> include generating passwords, and to generate entropy for TLS/SSL modules like <code>mod_ssl</code> on Apache web servers.</p>
+<pre><code class="language-bash">&lt; /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c12;echo
+</code></pre>
+<h5 id="etc">/etc</h5>
+<p>At some point in Unix history, this likely stood for "etcetera", though now some like to squeeze in the acronym "editable text configuration". Although most simply pronounce it "etsy" and know it as the place for configuration files. </p>
+<h5 id="opt">/opt</h5>
+<p>The FHS standard defines <code>/opt</code> as "software and add-on packages that are not part of the default installation". Often when a company is deploying an application, they have the option of either placing it all in one directory in <code>/opt/[application]</code> or share it's files across <code>/usr/local/bin</code> and  <code>/usr/local/lib</code>. </p>
+<h3 id="boot-process">Boot Process</h3>
+<h4 id="step-by-step-boot-process">Step by Step Boot Process`</h4>
+<ol>
+<li>Firmware (UEFI/BIOS)<ul>
+<li>When you turn on a computer, the firmware built into the hardware initiates the boot process.</li>
+<li>It performs a power-on-self-test (POST) to check hardware components and initialize them.</li>
+<li>The firmware looks for a boot device, usually the hard drive or SSD, where the bootloader is stored.</li>
+</ul>
+</li>
+<li>Bootloader (GRUB)<ul>
+<li>Once the firmware identifies the boot device, it hands over control to the bootloader.</li>
+<li>The bootloader loads the kernel into memory and passes control to it.</li>
+</ul>
+</li>
+<li>Kernel<ul>
+<li>The kernel is the core of the operating system. It initializes hardware, manages memory, and provides essential services to user programs.</li>
+<li>It mounts the root file system, initializes drivers for hardware components, and starts user space initialization.</li>
+</ul>
+</li>
+<li>User Space<ul>
+<li>After the kernel initializes, it starts the user space by launching systemd (previously init). This is the first process and can be seen with <code>pstree</code> or <code>ps -p 1</code>.</li>
+</ul>
+</li>
+</ol>
+<p>Depending on the firmware (BIOS or EUFI), a hard disk or SSD will have 1 of 2 partitioning schemes, MBR or GPT.</p>
+<p>Master Boot Record (MRB) is used in older systems that is the first 512 bytes of a storage device which contains how and where the operating system is located in order to be booted. Legacy BIOS systems using MBR can only support drives up to 2TB and up to 4 partitions.</p>
+<p>The bootstrap binary of a BIOS equipped machine is located in the MBR of the first storage device.</p>
+<p>GUID Partition Table (GPT) is the newer standard that works with UEFI that can have any number of ESP (EFI System Partitions) anywhere an a drive to load multiple operating  systems, unlike MBR, which is limited to one.  GPT also supports virtually unlimited size and up to 128 partitions.</p>
+<p>EUFI boot process searches for EFI applications which are usually bootloaders, such as GRUB, which can either act as a EFI application or a BIOS bootloader for older setups. ESP is where EFI applications are stored and are automatically created on the storage device during OS installation.</p>
+<p>Older BIOS systems often overwrited MBRs during installation of multiple OS's, GPT makes this easier becuase ESP can be located anywhere on the drive, they are not location dependent, like MBR, which must be at the first 512 bytes of the drive.</p>
+<h4 id="boot-files-and-commands">Boot Files and Commands</h4>
+<p><strong>mkinitrd</strong> - creates an initial ram disk image <code>initrd.img</code> which is used by the kernel for preloading the block device modules (such as IDE, SCSI or RAID) which are needed to access the root filesystem. 
+<strong>dracut</strong> -  a more modern alternative to <code>mkinitrd</code> 
+<strong>grub-install</strong> - installs grub onto a device, usually <code>boot/grub</code>
+<strong>grub-mkconfig</strong> - either generates a new <code>grub.cfg</code> file or updates the existing one also located in <code>boot/grub</code>
+<strong>grub-update</strong> - stub for <code>grub-mkconfig -o /boot/grub/grub.cfg</code></p>
+<p><strong>initrd.img</strong> -  initrd is mounted in memory to determine which kernel modules are are needed to support the current hardware. Explanation on <a href="https://www.linuxquestions.org/questions/linux-kernel-70/creating-vmlinuz-and-initrd-on-distribution-media-590730/#post2920395">forum</a>
+<strong>vmlinuz</strong> - the entire compressed kernel which is uncompressed and begins the initial systemd/init process, which starts all other processes
+<em>Both are used both during the initial OS install, and every boot therafter</em>.</p>
+<p>Note: <code>vmlinuz</code> kernel image is loaded first by the bootloader, followed by the <code>initrd</code>. The <code>initrd</code> serves as an intermediary step to initialize hardware and load necessary drivers before transitioning to the actual root file system.</p>
+<p><code>initrd</code> and <code>initramfs</code> are just two different methods of loading a temporary root file system into memory to start early kernel modules. </p>
+<p><strong>dracut</strong> similar to initrd in providing an initial ramdisk during boot process and is a more modern and flexible tool that dynamically generates ramdisk images based on the system's hardware. It has replaced initrd in some distributions.</p>
+<p>Here are two short descriptions of dracut from the <a href="https://man7.org/linux/man-pages/man8/dracut.8.html">man</a> page and it's <a href="https://github.com/zfsonlinux/dracut">github</a> repository repsectively:
+"low-level tool for generating an initramfs/initrd image"
+"a new initramfs infrastructure"</p>
+<p><strong>Kernel Panic</strong> - Critical error condition that usually results in the entire system becoming unresponsive and requiring a reboot. Nothing is userspace runs during and after the system panics, it will instead immediately shutdown all other CPUs, and the current CPU processing the panic will never return to userspace</p>
+<h4 id="boot-sources">Boot Sources</h4>
+<h5 id="preboot-excecution-environments-pxe">Preboot Excecution Environments (PXE)</h5>
+<p>PXE is meant for booting off of a network, as opposed to a local storage device. This is done through TFTP (Trivial File Transfer Protocol), a simpler FTP which does not require authentication,. Once connected, the server will tell the client where to locate the boot files. iPXE is the newer protocol which uses HTTP to pull files. PXE and iPXE are essentially just one approach to provisioning and automate the deployment of operating systems and configurations for servers.</p>
+<h5 id="optical-disc-image-iso">Optical Disc Image (ISO)</h5>
+<p>ISOs are copies of of entire optical disks such as DVDs or CDs. Although bootable USB drives have largely replaced optical media, ISO files can still be used to create bootable USB sticks. The most common tool to create bootable drives is Rufus, although on my Linux Mint system below, I have downloaded a Fedora ISO, which I can create into a bootable stick from the file manager itself.</p>
+<p><img alt=".iso file" src="../iso-file.png" /></p>
+<h3 id="basic-package-compilation-from-source">Basic Package Compilation From Source</h3>
+<p>Although software is often installed with a package manager (APT, RPM, etc.), there are times when it is necessary to install from source code. This could be when you are writing the software yourself, or the software is not listed in your package manager's repositories. </p>
+<p>Linux distros rarely come with the compiling/build tools themselves. To install on Debian based distros, run <code>sudo apt install build-essential</code> or <code>sudo dnf groupinstall "Development Tools"</code> on Red Hat based distros. These both install a set of essential development tools and libraries necessary for building software from source code.</p>
+<p>The following three commands are commonly used together and in this order to build and install software from source code on Unix-like systems.</p>
+<h4 id="configure">./configure</h4>
+<p>Configures the software build process. It checks the system for dependencies, sets build options, and generates a Makefile from Makefile.in that contains instructions for compiling the software.</p>
+<h4 id="make">make</h4>
+<p>running <code>make</code> will use the Makefile to build the program. It compiles the source code and produces executable binaries. I recommend running <code>man make</code> and digging around, here is a snippet:</p>
+<pre><code class="language-text">The  make  utility will determine automatically which pieces of a large program need to be 
+recompiled, and issue the commands to recompile them. ...  Our examples show C programs, since
+they are  very  common,  but  you can use make with any programming language whose compiler 
+can be run with a shell command.  In fact, make is not limited to programs.  You can use it to
+describe  any task  where  some  files  must  be  updated  automatically from others whenever
+the others change.
+</code></pre>
+<h4 id="make-install">make install</h4>
+<p>This command will also use the Makefile but will use it to install the program once it has been compiled. This involves installing binaries, libraries, and other necessary files to make the software available to use.</p>
+<h4 id="example">Example</h4>
+<p>To practice these commands, you can go to <a href="https://ftp.gnu.org/gnu/hello/">gnu.org</a> and download the hello-2.12.tar.gz at the very bottom.</p>
+<p>You can extract the file with <code>tar -zxvf [file]</code>. The <code>z</code> flag is for g-zipped files, hence the <code>.gz</code>. <code>x</code> for extract, optional <code>v</code> for verbose output, and <code>f</code> to specify the file. This should create a directory of the extracted files.</p>
+<p>Once in that directory, <code>ls</code> to make note of the file <code>configure</code> , then run <code>./configure</code> to execute it. Now with a <code>makefile</code>, run <code>make</code>. This should create an executable <code>hello</code> which can be ran with <code>./hello</code>. You should get a "Hello World!" output on your terminal. But to install the program globally, run <code>sudo make install</code>, this will install the package's files in
+<code>/usr/local/bin</code>, <code>/usr/local/lib</code>, <code>/usr/local/man</code>, etc. </p>
+<pre><code>❯ sudo make install
+[sudo] password for promptier:     
+./mkinstalldirs /usr/local/bin /usr/local/info
+mkdir /usr/local/info
+/usr/bin/install -c hello /usr/local/bin/hello
+/usr/bin/install -c -m 644 ./hello.info /usr/local/info/hello.info
+❯ hello 
+Hello, world!
+❯ which hello
+/usr/local/bin/hello
+</code></pre>
+<h3 id="basic-storage-concepts">Basic Storage Concepts</h3>
+<h4 id="block-storage">Block Storage</h4>
+<ul>
+<li>No Metadata, or very minimal (basic file attributes)</li>
+<li>Each block has a unique ID</li>
+<li>Filesystems are often built on top of blocks</li>
+<li>Accessed through iSCSI networking protocol, or traditional Fibre Channel which requires hardware (cables, adapters, switches, etc.). Read more <a href="https://community.fs.com/article/iscsi-storage-basics-plan-iscsi-san.html">here</a></li>
+<li>Used in SANs (Storage Area Network) or cloud based storage</li>
+<li>highly performant and scalable, though expensive</li>
+<li>Examples include relational databases, email servers and VMWare's Virtual Machine Filesystem (VMFS)</li>
+</ul>
+<h4 id="object-storage">Object Storage</h4>
+<ul>
+<li>Relatively new concept, often used in the cloud, Amazon S3 is a common example.</li>
+<li>Often accessed through an API.</li>
+<li>stored in "data lakes" or "data pools" in a flat manner, with no file hierarchy.</li>
+<li>ease of searchability and cost efficient. Best for large unstructured data.</li>
+<li>each object has metadata (size, date modified, permissions, etc.) and an UUID.</li>
+<li>poor performance because of the heavy metadata overhead</li>
+</ul>
+<h4 id="file-storage">File Storage</h4>
+<ul>
+<li>Oldest and most widely used storage system</li>
+<li>Used with NAS (Network Attached Storage)</li>
+<li>Tree-like, hierarchical structure with files within nested folders, each being a child or parent</li>
+<li>Not very scalable.</li>
+<li>Can be visualized with the <code>tree</code> command. </li>
+</ul>
+<pre><code>tree
+.
+├── Desktop
+│   ├── bash
+│   │   ├── dep.txt
+│   │   ├── folders.sh
+│   │   └── tar
+│   │       ├── file1
+│   │       ├── file2
+
+</code></pre>
+<h3 id="filesystem-in-userspace-fuse">Filesystem in Userspace (FUSE)</h3>
+<p>Used to mount and unmount filesystems in userspace without requiring root level, kernel access. Commonly used by <code>sshfs</code>, a tool to mount a remote filesystem using SFTP. Another example that uses FUSE are [[1.6 Package Management and Sandboxed Apps#Appimages|Appimages]]</p>
+<p>From the man page of <code>fusermount</code></p>
+<pre><code>Simple interface for userspace programs to export a virtual filesystem to the Linux kernel. 
+It also aims to provide a secure method for non privileged users to create and mount their 
+nown filesystem implementations.
+</code></pre>
+<h3 id="raid">RAID</h3>
+<p>RAID stand for <em>Redundant Array of Independent/Inexpensive Disks</em>. RAID gives a group of hard drives or block storage devices redundancy and data protection against disc failure. Different RAID levels offer different degrees of fault tolerance.
+<a href="https://www.youtube.com/watch?v=U-OCdTeZLac">Animated Video Explaining RAID 0, 1 and 10</a></p>
+<p><strong>Raid 0</strong>
+- Isn't even RAID in a sense, as it provides <em>zero</em> fault tolerance
+- Raid 0, or "disk striping", splits data across drives evenly.
+- With 4 drives and a 4 megabyte file being saved, 1 megabyte per drive is spread across and thus increases speed. This also means each drives space is being taken advantage of.
+- Very fast but if even one drive fails, all data is lost, this means RAID 0 isn't just not fault tolerant, it increases the chances of data loss.</p>
+<p><strong>Raid 1</strong>
+- Known as "mirroring", data is stored on a drive in addition to each mirror drive. Atleast 2 drives are required for RAID 2
+-  A drive can fail and the controller will just use either use the first drive or any of it's mirrors for data recovery and continuous operation.
+- A disadvantage is less effective storage capacity as all data gets written at least twice</p>
+<p><strong>Raid 5</strong>
+- RAID 5 stripes data across each drive and provides fault tolerance with each drive having a parity.
+- Each parity is equivalent to an entire drive, meaning if you have 4 disks totaling 4 terabytes, only 3 terabytes will be used for actual data storage. 
+- Can only handle 1 disk failure at a time</p>
+<p><strong>Raid 6</strong>
+- A more fault tolerant RAID 5 that can handle 2 disk failures at once as parity is spread twice to all disks.
+- Minimum of 4 disks required.
+- In a setup of 4 disks totaling 4 terabytes, only 2 terabytes of actual data storage is available, as 2 disks are used to store a double parity.
+- Read performance is the same as RAID 5, but write performance is slower as it must write double the parity blocks instead of 1.
+<a href="https://www.youtube.com/watch?v=UuUgfCvt9-Q&amp;t=3s">Animated Video of RAID 5 and 6</a></p>
+<p><strong>Raid 10</strong>
+- 2 drives are mirrored in a RAID 1 setup, with a minimum of 4 drives.
+- Combines the fault tolerance of RAID 1 and the speed of RAID 0
+- The downside is you can only use 50% of space for actual storage, the other half is mirrored.</p>
+<h3 id="listing-hardware-information">Listing Hardware Information</h3>
+<p>Linux Kernel Modules related to hardware devices are also called drivers. <code>lspci</code> will list your PCI devices, each starting with a  unique address, which more info can be found with <code>lspci -s [address] -v OR -k</code>. This will show what kernel module is in use which can be found in <code>lsmod</code>.</p>
+<p>To find you network card, pipe the output of <code>lspci</code> into <code>grep -i</code> for an insensitive search.</p>
+<pre><code>lspci | grep -i network
+03:00.0 Network controller: MEDIATEK Corp. MT7921 802.11ax PCI Express Wireless Network Adapter
+</code></pre>
+<p>Now let's see what kernel modules the network card is using with the verbose <code>-v</code> output.</p>
+<pre><code>lspci -s 03:00.0 -v
+03:00.0 Network controller: MEDIATEK Corp. MT7921 802.11ax PCI Express Wireless Network Adapter
+    DeviceName: Realtek RTL8111E Ethernet LOM
+    Subsystem: Lenovo Device e0bc
+    Physical Slot: 0
+    Flags: bus master, fast devsel, latency 0, IRQ 73, IOMMU group 11
+    Memory at fc02000000 (64-bit, prefetchable) [size=1M]
+    Memory at fc02100000 (64-bit, prefetchable) [size=16K]
+    Memory at fc02104000 (64-bit, prefetchable) [size=4K]
+    Capabilities: &lt;access denied&gt;
+    Kernel driver in use: mt7921e
+    Kernel modules: mt7921e
+</code></pre>
+<p>We could then use <code>lsmod</code> to find more about the kernel module, such as the size and other modules that are dependent on it.</p>
+<pre><code>lsmod | grep mt7921e
+mt7921e                94208  0
+</code></pre>
+<p><code>lsusb</code> is similar to the previous command. With option -t, command lsusb shows the current USB device mappings as a hierarchical tree. A specific USB device can be found with the <code>-d</code> flag followed by the id.</p>
+<pre><code class="language-bash">lsusb -vd 1d6b:0003
+
+[very verbose output]
+</code></pre>
+<p><code>dmidecode</code> is a tool for dumping a computer's DMI table contents in a human readable from. This includes detailed hardware information as well as serial numbers and BIOS revision that does not require probing the actual hardware. Use the type flag <code>-t</code> to specify what hardware, such as <code>dmidecode -t memory</code> or <code>dmidecode -t processor</code>.</p>
+<p>Here are some output from <code>dmidecode</code> from my computer.</p>
+<pre><code>BIOS Information
+        Vendor: LENOVO
+        Version: H3CN32WW(V2.02)
+        Release Date: 02/23/2022
+        BIOS Revision: 1.32
+        Firmware Revision: 1.32
+
+Handle 0x0001, DMI type 1, 27 bytes
+System Information
+        Manufacturer: LENOVO
+        Product Name: 82K2
+        Version: IdeaPad Gaming 3 15ACH6
+        Serial Number: MP2BK1DS
+        UUID: 1c45bdff-12cd-11ed-8c90-e4a8dfe66d9e
+
+Handle 0x0004, DMI type 4, 48 bytes
+Processor Information
+        Socket Designation: FP6
+        Type: Central Processor
+        Family: Zen
+        Manufacturer: Advanced Micro Devices, Inc.
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>

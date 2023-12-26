@@ -1,0 +1,1225 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../1.3%20Storage/">
+      
+      
+        <link rel="next" href="../1.5%20Networking/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
+    
+    
+      
+        <title>1.4 Processes and Services - Study Linux</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.50c56a3b.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#systemctl" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Study Linux" class="md-header__button md-logo" aria-label="Study Linux" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Study Linux
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1.4 Processes and Services
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Study Linux" class="md-nav__button md-logo" aria-label="Study Linux" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Study Linux
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    1. 0 System Management
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            1. 0 System Management
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.1%20Linux%20Fundumentals/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.1 Linux Fundumentals
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.2%20Manage%20Files%20and%20Directories/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.2 Manage Files and Directories
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.3%20Storage/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.3 Storage
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    1.4 Processes and Services
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    1.4 Processes and Services
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#systemctl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Systemctl
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#process-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Process Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Process Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kill-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kill Signals
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      Process States
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nice-and-renice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nice and Renice
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#top" class="md-nav__link">
+    <span class="md-ellipsis">
+      top
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="top">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Statistics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Process Table
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#htop" class="md-nav__link">
+    <span class="md-ellipsis">
+      htop
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.5%20Networking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.5 Networking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.6%20Package%20Management%20and%20Sandboxed%20Apps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.6 Package Management and Sandboxed Apps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1.7%20Manage%20Software%20Configurations/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    1.7 Manage Software Configurations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    2.0 Security
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            2.0 Security
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.1%20PKI-Certs-Auth-Linux%20Hardening/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.1 PKI Certs Auth Linux Hardening
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.2%20Identity%20Management/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.2 Identity Management
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.3%20Firewalls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.3 Firewalls
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.4%20SSH%20and%20Excecuting%20Commands%20as%20Another%20User/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.4 SSH and Excecuting Commands as Another User
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/2.5%20Access%20Controls/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2.5 Access Controls
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2.0%20Security/Permissions-Octal%20Values/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Permissions Octal Values
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    3.0 Scripting, Containers, Automation
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            3.0 Scripting, Containers, Automation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/3.1%20Bash%20scripting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.1 Bash scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/3.5%20Cloud%20%26%20Orchestration%20Concepts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3.5 Cloud & Orchestration Concepts
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/Docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Docker
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/Git/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Git
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3.0%20Scripting%2C%20Containers%2C%20Automation/Infrastructure%20as%20Code/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Infrastructure as Code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#systemctl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Systemctl
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#process-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Process Management
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Process Management">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kill-signals" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kill Signals
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      Process States
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nice-and-renice" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nice and Renice
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#top" class="md-nav__link">
+    <span class="md-ellipsis">
+      top
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="top">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#statistics" class="md-nav__link">
+    <span class="md-ellipsis">
+      Statistics
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#process-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      Process Table
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#htop" class="md-nav__link">
+    <span class="md-ellipsis">
+      htop
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  <h1>1.4 Processes and Services</h1>
+
+<h4 id="systemctl">Systemctl</h4>
+<p>The <code>systemctl</code> program inspects and manages the<code>systemd</code> system and service manager. Systemd runs as your your very first process (PID 1) on boot, which spawns all other processes. </p>
+<p><code>systemd status</code> will display all ongoing systemd services which can be narrowed down with <code>{service-name}</code>, such as the following.</p>
+<pre><code>~$ systemctl status cron
+● cron.service - Regular background program processing daemon
+     Loaded: loaded (/lib/systemd/system/cron.service; enabled; vendor preset: enabled)
+     Active: active (running) since Mon 2023-11-13 07:13:26 CST; 2h 31min ago
+</code></pre>
+<p>Each of these services are contained within control groups (cgroups) to isolates resource usage of a collection of processes. Very similar to <code>systemd status</code>, <code>systemd-cgls</code> will list all control groups in a more concise format. <code>systemd-cgtop</code> will list control groups by resource usage, similar to <code>top</code>.</p>
+<p>To manage these services, use <code>systemctl enable</code> and  <code>disable</code> for automatic starting or preventing the service at boot. Use <code>start</code> and <code>stop</code> to do this manually for immediate action. A more drastic action is <code>mask</code>, which prevents the service from starting on boot and manually starting by creating a symlink to <code>/dev/null</code>, this effectively discards any attempt to start the unit. As an example, if you have a legacy service (<code>old-service.service</code>) that should never be started again and should be completely removed from the system. Masking ensures that even if someone tries to start it manually, systemd will ignore it.</p>
+<h4 id="process-management">Process Management</h4>
+<h5 id="kill-signals">Kill Signals</h5>
+<p>You can  list all possible kill signals with <code>kill -l</code>, here are four common ones with there name and associated code to be called with <code>kill</code>.</p>
+<p><strong>SIGHUP - 1</strong> Originating from the concept of a "hangup", or when a something like a modem disconnects from a console, this signal now mostly refers to a program losing connection to the controlling terminal (tty).  Any program started in a given terminal will receive a SIGHUP when the terminal is closed. Besides terminals, daemons (being detached from the terminal) use this signal by convention to reread config files.</p>
+<p><strong>SIGINT - 2</strong> Signal interrupt is what occurs when <code>ctrl + c</code> is pressed during a running process. It is essentially a interruption request sent by the user.</p>
+<p><strong>SIGKILL - 9</strong> Instructs the process to terminate immediately. It cannot be ignored or blocked. This is the most powerful signal and can have unintended consequences.   </p>
+<p><strong>SIGTERM - 15</strong> Signal terminate tries to kill the process, but can be blocked or handled in various ways. It is a more gentle way to kill a process.</p>
+<p><strong>SIGCONT - 18</strong> Continue a process after having been paused with SIGSTOP</p>
+<p><strong>SIGSTOP - 19</strong>  This pauses a foreground process, which is one that controls the tty and is currently being displayed in the terminal. <code>ctrl + z</code> will trigger this signal and bring the process the the backround. The process can be brought back the the foreground with <code>fg</code>. </p>
+<p>Let's run a sleep command to start a running process in the foreground, pause it, find it's PID, then kill it. Keep in mind <code>kill -9</code> is equivelent to <code>kill -SIGKILL</code> and so forth.</p>
+<pre><code>❯ sleep 200
+^Z
+[1]+  Stopped                 sleep 200
+
+~ took 3s 
+✦ ❯ ps
+    PID TTY          TIME CMD
+   8305 pts/0    00:00:00 bash
+  11615 pts/0    00:00:00 sleep
+  11645 pts/0    00:00:00 ps
+
+~ 
+✦ ❯ kill -9 11615
+</code></pre>
+<p>Alternatively, we could have induced <code>SIGINT</code> with <code>ctrl + c</code> to interupt the process, or brought back the backround process to our terminal with <code>fg</code>.</p>
+<p>Commands to find PIDs by name include <code>pgrep</code> and <code>pidof</code>. They are similar except pidof only returns the exact match of the name, while pgrep includes partial matches. </p>
+<p>In this example, pidof returns only the exact match called <code>systemd</code>, while pgrep returns programs including <code>systemd-journal</code>, <code>systemd-logind</code>, etc.</p>
+<pre><code>❯ pidof systemd
+1779
+
+❯ pgrep systemd
+1
+460
+495
+892
+1779
+</code></pre>
+<p>The the <code>kill</code> program requires the exact PID, there are two programs which take names as arguments. Comparable to pgrep and pidof, <code>pkill</code> and <code>killall</code> work with partial names and exact names respectively. In this example, pkill will forcibly kill all programs with matching "obsidian" including partial matches. killall will only kill programs with the exact name of "obsidian".</p>
+<pre><code>❯ pkill -9 obsidian
+❯ killall -9 obsidian
+</code></pre>
+<p>Here I pause (SIGSTOP) and resume (SIGCONT) my file manager, Nemo, on Linux Mint. After I pause it, the application's window is basically frozen, then I resume it. </p>
+<pre><code>❯ pkill -19 nemo
+
+❯ pkill -18 nemo
+</code></pre>
+<h5 id="process-states">Process States</h5>
+<table>
+<thead>
+<tr>
+<th>Process State</th>
+<th>PS Representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Running</td>
+<td>R</td>
+</tr>
+<tr>
+<td>Idle</td>
+<td>I</td>
+</tr>
+<tr>
+<td>Stopped</td>
+<td>T</td>
+</tr>
+<tr>
+<td>Sleeping(Int)</td>
+<td>S</td>
+</tr>
+<tr>
+<td>Sleeping(UnInt)</td>
+<td>D</td>
+</tr>
+<tr>
+<td>Zombie</td>
+<td>Z</td>
+</tr>
+</tbody>
+</table>
+<p>These process states can be seen with <code>ps</code> and <code>top</code>. Processes that are stopped can be though of as paused, this is what happens with <code>ctrl + c</code> sending the SIGSTOP signal, which can be resumed with SIGCONT. Most processes seen with <code>top</code> are either running (S), idle (I).</p>
+<p>Interruptible sleep (S) is sensitive and waiting for user space signals. Uninterruptible sleep (D) waits for a specific system call (usually disk I/O) and cannot be interrupted or killed until the call is complete.</p>
+<p>Zombies (Z) are dead processes whose parent has not destroyed them properly. They do not use any resources but can pollute output in <code>ps</code> and <code>top</code> and should be cleaned up.</p>
+<p><code>jobs</code> views and manages background jobs within the current shell session. <code>sleep</code> is an easy command to experiment with. After sleeping for a set amount of time, the process can be paused (SIGSTOP) with <code>ctrl + z</code> or immediately brought to the backround with <code>&amp;</code>.</p>
+<pre><code>~$ sleep 10
+^Z
+[1]+  Stopped                 sleep 10
+
+~$ sleep 20 &amp;
+[2] 3967600
+</code></pre>
+<p>View current jobs with <code>jobs</code> and bring one back to the foreground with <code>fg [id]</code>. By default <code>fg</code> will run the job marked with a <code>+</code>.</p>
+<pre><code>~$ jobs
+[1]-  Stopped                 sleep 10
+[2]+  Stopped                 sleep 20
+
+~$ fg 1
+sleep 10
+</code></pre>
+<p><code>ps</code> is a more general process monitoring tool for the whole system. Instead of viewing jobs only in the terminal session, you can detach from the terminal with the <code>x</code> flag and specify options/columns with <code>-o</code>. Here I only care about the PID and state.</p>
+<pre><code>~$ ps -x -o pid,state
+    PID S
+   1259 S
+   1260 S
+   1267 S
+</code></pre>
+<h5 id="nice-and-renice">Nice and Renice</h5>
+<p>Nice is intended for batch or background jobs. Jobs are niced (given lower scheduling priority) so they don't use CPU when online users need it, and so foreground tasks have ample performance.</p>
+<p>Niceness value refers to CPU priority of userspace programs on a scale of -20 to 20, lower being higher priority. Use <code>nice</code> to launch a program with a specific niceness value, and <code>renice</code> to alter the priority of a currently running process. </p>
+<p>Here I launch my terminal with a relatively low priority of 10. Then I alter it's nice value to an even lower priority. </p>
+<pre><code>❯ nice -n 10 gnome-terminal
+❯ renice -n 15 9830
+</code></pre>
+<p>Keep in mind in order launch a program with high priority (below 0), you need root privilege. In the same manner, root privileged is also needed to increase a current running program's priority. </p>
+<h4 id="top">top</h4>
+<p>Top is the default resource moniter preinstalled on nearly all Linux systems. You can think of it as a lightweight, terminal based Task Manager from Windows. Before jumping into it, you can list the running processes manually as well as find uptime and load average with simpler commands.</p>
+<p>The <code>ps</code> command by default will list out procceses ran in the terminal. The <code>x</code> flag lifts the restriction of the terminal and displays all ongoing processes in the system. The <code>u</code> flag adds a user column.</p>
+<pre><code>❯ ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0 166648 12088 ?        Ss   07:23   0:01 /sbin/init splash
+root           2  0.0  0.0      0     0 ?        S    07:23   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        I&lt;   07:23   0:00 [rcu_gp]
+</code></pre>
+<p>We can also find uptime and load average with <code>uptime</code> or <code>cat /proc/loadavg</code>. These are explained below.</p>
+<pre><code>❯ uptime
+ 10:05:42 up  2:42,  1 user,  load average: 1.51, 1.13, 0.92
+
+~ 
+❯ cat /proc/loadavg 
+1.46 1.12 0.92 1/1319 13289
+</code></pre>
+<p>For a more dynamic listing of this data, we can run <code>top</code>. You can think of this which as essentially running commands like <code>ps aux</code>, <code>uptime</code>, <code>free</code> for memory, and additional commands every three seconds, to actively moniter the system.</p>
+<p><img alt="Linux/Linux+/1. 0 System Management/top" src="Linux/Linux+/1. 0 System Management/top.png" /></p>
+<h5 id="statistics">Statistics</h5>
+<p>Starting with the statistics at the top, starting from the left, you can see the up time, which is how long the system has been running. Moving right, the number of users is displayed, then we have load average, which is average CPU usage in the past 1 minute, 5 minutes, and 15 minutes. It is  based on your number of cores. For example if you have 4 cores, then a 4.0 would mean 100% CPU usage, in this screenshot, I have 2 cores so in the past 1 minute I had 63% usage of my 2 cores.</p>
+<h5 id="process-table">Process Table</h5>
+<p>Now, let's go over each column in the process table.</p>
+<ul>
+<li><strong>PID</strong>: Process ID.</li>
+<li><strong>USER</strong>: The user running the process.</li>
+<li><strong>PR</strong>: Priority of the task computed by the kernel on a scale of 20 to -20.</li>
+<li><strong>NI</strong>: "Niceness" value, which involves the priority of user processes. 0 is the default and highest priority.</li>
+<li><strong>VIRT</strong>: Virtual and physical memory, representing the total memory space allocated to a process, including RAM and swap. It's like a hypothetical maximum needed by the program. RES + Swap space = VIRT</li>
+<li><strong>RES</strong>: Resident (Physical) memory used by the process. VIRT - Swap space = RES</li>
+<li><strong>SHR</strong>: Shared memory.</li>
+<li><strong>S</strong>: State of the process, where "R" means running, "S" means sleeping, and "I" is idle.</li>
+</ul>
+<p>To only display columns that matter to you, you can press <code>f</code> while in top for field management. In this case I only care about process state, cpu, memory, how long the process has been running, and the command name.</p>
+<p>Navigate with the arrows and select fields with the spacebar.
+<img alt="field-management" src="../field-management.png" />
+Now I have a much more minimal process table with only the fields I care about.
+<img alt="Linux/Linux+/1. 0 System Management/top" src="Linux/Linux+/1. 0 System Management/top.png" /></p>
+<h5 id="htop">htop</h5>
+<p>The most popular alternative, <code>htop</code>, provides more customization, scrolling and mouse support, color, and an overall cleaner interface. Unlike <code>top</code>, it does not come preinstalled but is worth checking out with a quick download.</p>
+<pre><code>sudo apt install htop
+</code></pre>
+<p>I recommend to learn <code>top</code> first and then try out <code>htop</code>, comparing the two. </p>
+<p>Upon running <code>htop</code>, you will first realize the displayed columns discussed above are exactly the same, as well as the tasks, load average, and up time at the top right. The main difference is the colorful, more readable TUI (text user interface) that supports mouse events and scrolling. An example of this is the CPU column, colored blue after clicking, ordering the processes by CPU consumption. </p>
+<p>![[htop.jpg]]</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7c377c4.min.js"></script>
+      
+    
+  </body>
+</html>
