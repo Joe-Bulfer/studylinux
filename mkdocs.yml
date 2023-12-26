@@ -1,0 +1,10 @@
+site_name: Study Linux
+  #nav:
+  #- Home: index.md
+  #- About: about.md
+theme:
+  name: 'material'
+
+# allow HTML target="_blank" on markdown links to open links in new tabs by default
+markdown_extensions:
+  - attr_list
