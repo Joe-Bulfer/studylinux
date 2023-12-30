@@ -1,0 +1,24 @@
+#### History, Virtual Machines and Containers 
+##### History
+When you learn about container technology i.e Docker, or Virtual Machines, a story is presented: at first, there were dedicated servers each running their own application. This ensured isolation and dedicated resources but was not cost-efficient. Then came along virtual machines, which allowed a single physical machine to simulate/virtualize multiple operating systems. This was more efficient, but then came along Containers. Why run an entire operating system to run a single application, even if it's virtualized? Containers emerged as a lightweight alternative to VMs, running only what is strictly necessary to run the single application. This allows for more efficient resource use and faster startup times.
+
+Here is a timeline of server evolution.
+
+**Dedicated Servers (Early 1990s - Early 2000s)**
+Companies had on-premise, separate physical servers for their email, website, and database services.  Companies like IBM and Dell were key players in providing server hardware during this period. This era also saw the emergence of rack-mounted servers, which brought a new level of scalability and manageability.
+
+**Virtual Machines (Early 2000s - Early 2010s):**
+Virtualization technology gained traction in the early 2000s, with widespread adoption occurring through the 2010s. VMware became a significant figure in this space with their product offerings like VMware Workstation (introduced in 1999) and VMware ESX (introduced in 2001). Microsoft released Hyper-V in 2008, integrating virtualization capabilities into Windows Server.
+
+**Containerization (Mid 2010s - Present)**
+Developers use containers to package applications with all their dependencies. This allows for consistent deployment across different environments. Microservices architectures also became more feasible with containers. Docker, released in 2013, revolutionized container management and deployment, making it easier to use. Google developed Kubernetes, which was released in 2014, to automate the deployment, scaling, and management of containerized applications.
+
+##### Virtualization
+
+For homelabs or personal projects, most use Virtualbox or Hyper-V on Windows and KVM-Qemu on Linux. KVM (Kernel Virtual Machine) is an example of a type-1 hypervisor as it essentially converts the kernel itself into a hypervisor. Virtualbox is a type-2 as you install it on top of your existing Host operating system.
+![Type 1 and Type 2 Hypervisor](type1-type2-vm.png)
+When you have multiple different hypervisor stacks, you may have different sets of tools to manage them. Libvirt is designed to end this. It is a universal tool which can manage QEMU, KVM, LXC, VMware, Hyper-V and many more. Features include storage pools, virtual network management, snapshots, resource allocation, etc.
+
+cloud-init is a bootstrapping technology for deploying virtual machines that can automatically configure SSH keys, users, networking rules, packages, etc.
+
+LXC is sort of a middle ground between Docker containers and hypervisor based VMs in terms of isolation. LXD is an extension of LXC as a management tool.
