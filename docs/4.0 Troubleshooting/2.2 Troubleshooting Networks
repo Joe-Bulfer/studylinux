@@ -1,0 +1,48 @@
+##### OpenSSL s_client
+
+Diagnostic tool for SSL/TLS Servers
+
+```
+❯ openssl s_client -connect linkedin.com:443 -showcerts
+CONNECTED(00000003)
+depth=2 C = US, O = DigiCert Inc, OU = www.digicert.com, CN = DigiCert Global Root CA
+...
+```
+grab cert in .pem file
+```
+❯ echo | openssl s_client -connect linkedin.com:443 2>&1 | sed --quiet '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > linkedin.com.pem
+```
+
+Read more [here](https://www.misterpki.com/openssl-s-client/)
+
+##### Nmap
+Nmap (Network Mapper) is a tools designed to scan large networks. You can easily see which ports are open, closed, or filtered, what devices and firewalls are in use, etc. Though common for security auditing, it can be used for much more, such as network inventory and manage service upgrade schedules.
+
+Concerning legality, it in not illegal to port scan in the US. The worst that might happen is the target network complains to your ISP, or your ISP may block your machine outright if it is against their policy. Keep in mind port scanning is not the same as vulnerability scanning, which can be illegal.
+
+One way to scan ports would be a tool like netcat. This is useful to check a particular connection or port, but not sufficient for scanning an entire network.
+```
+❯ nc -zv scanme.nmap.org 22 80 
+Connection to scanme.nmap.org (45.33.32.156) 22 port [tcp/ssh] succeeded!
+Connection to scanme.nmap.org (45.33.32.156) 80 port [tcp/http] succeeded!
+```
+
+Nmap is more efficient by automatically scanning the most commonly open 1,000 ports as per the [nmap-services](https://nmap.org/book/nmap-services.html). 
+
+The `-A` is for OS and version detection. As you can tell, Nmap provides additional information for each port, such as SSH key and what web server they are running (Apache).
+```
+❯ nmap -A -T4 scanme.nmap.org
+PORT      STATE    SERVICE     VERSION
+22/tcp    open     ssh         OpenSSH 6.6.1p1 Ubuntu 2ubuntu2.13 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   1024 ac:00:a0:1a:82:ff:cc:55:99:dc:67:2b:34:97:6b:75 (DSA)
+|   2048 20:3d:2d:44:62:2a:b0:5a:9d:b5:b3:05:14:c2:a6:b2 (RSA)
+|   256 96:02:bb:5e:57:54:1c:4e:45:2f:56:4c:4a:24:b2:57 (ECDSA)
+|_  256 33:fa:91:0f:e0:e1:7b:1f:6d:05:a2:b0:f1:54:41:56 (ED25519)
+80/tcp    open     http        Apache httpd 2.4.7 ((Ubuntu))
+|_http-server-header: Apache/2.4.7 (Ubuntu)
+|_http-title: Go ahead and ScanMe!
+
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+```
+
