@@ -1,0 +1,27 @@
+#### I/O Schedulers
+I/O Scheduling aka disk scheduling is how your computer handles read/write requests and in what order. Some emphasize particular goals, such as prioritizing certain processes I/O requests over others, to give a fair share of disk bandwidth to each process, or to ensure requests are complete by a particular deadline.
+
+[Ubuntu Docs](https://wiki.ubuntu.com/Kernel/Reference/IOSchedulers)
+"multiqueue is enabled by default providing the bfq, kyber, mq-deadline and none I/O schedulers"
+
+ **mq-deadline (Multiqueue)**
+This is an adaption of the deadline I/O scheduler but designed for Multiqueue devices. A good all-rounder with fairly low CPU overhead.
+
+To check your scheduler 
+```
+❯ grep -i 'io scheduler' /var/log/dmesg
+[    0.688085] kernel: io scheduler mq-deadline registered
+# OR
+❯ cat /sys/block/[Storage Device]/queue/scheduler 
+[none] mq-deadline 
+```
+To change your scheduler to either three
+```
+❯ sudo echo [noop|cfq|deadline] > /sys/block/hda/queue/scheduler`
+```
+
+Three main ones are:
+>- **CFQ (cfq):** the default scheduler for many Linux distributions; it places synchronous requests, submitted by processes, into a number of per-process queues and then allocates timeslices for each of the queues to access the disk.
+>- **Noop scheduler (noop):** the simplest I/O scheduler for the Linux kernel based on the First In First Out (FIFO) queue concept. This scheduler is best suited for SSDs.
+>- **Deadline scheduler (deadline):** attempts to guarantee a start service time for a request.
+	-- [TechRepublic](https://www.techrepublic.com/article/how-to-change-the-linux-io-scheduler-to-fit-your-needs/)
